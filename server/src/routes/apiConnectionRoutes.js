@@ -12,7 +12,7 @@ const router = Router();
 // });
 
 router.post('/login/user', auth.login);
-router.get('/verify', auth.verify_token); 
+router.post('/verify', auth.verify_token); 
 
 router.get('/', (req, res) => {
     res.render('home');

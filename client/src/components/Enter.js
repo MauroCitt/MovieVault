@@ -13,7 +13,7 @@ export default function Enter(props) {
 
 	return (
 		<div>
-		<p>Verifying your magic link</p>
+			<p>Verifying your magic link</p>
 		</div>
 		)
 }

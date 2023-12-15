@@ -26,10 +26,10 @@ function App() {
       if (token == null) return setLoggedIn(false);
       try{
         axios.defaults.headers.common['Authorization'] = token;
-        const response = await axios.post(`${URL}/verify`);
+        const response = await axios.post(`${URL}verify`);
         return login(token) 
       } catch(error){
-        console.error(error);
+        console.error("Error en el verify: " + error);
       }
     };
     verify_token();
@@ -67,13 +67,15 @@ function App() {
 
   return (
     <div className="App">
-    {<UserEmail 
+    <Router>
+    <Routes>
+    <Route path="/" 
+    element= {<UserEmail 
     enterEmail={enterEmail} 
     emailSubmit={emailSubmit} 
     userEmail={userEmail} 
     setUserEmail={setUserEmail} />}
-    <Router>
-    <Routes>
+    />
     <Route
     path="/home"
     element={<Home />}

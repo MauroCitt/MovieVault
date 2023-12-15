@@ -58,7 +58,7 @@ const login = async (req, res) => {
     
     } else if (user.MagicLink == magicLink && !user.MagicLinkExpired) {
       console.log("Generating token...");
-      const token = jwt.sign(user.toJSON(), jwt_secret, { expiresIn: "1h" });
+      const token = jwt.sign(user.toJSON(), jwt_secret, { expiresIn: "5h" });
       await User.findOneAndUpdate(
         { Email: email },
         { MagicLinkExpired: true }
@@ -79,7 +79,7 @@ const verify_token = (req, res) => {
 	const token = req.headers.authorization;
 	jwt.verify(token, jwt_secret, (err, succ) => {
 		err
-		? res.json({ ok: false, message: "something went wrong" })
+		? console.error("Error de jwt: " + err)
 		: res.json({ ok: true, succ });
 	});
 };
