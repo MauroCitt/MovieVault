@@ -8,9 +8,10 @@ import {
 } from 'react-router-dom';
 import axios from 'axios';
 import Enter from './components/Enter.js';
-import Home from './views/Home.js';
+import Profile from './components/Profile.js';
 import UserEmail from './components/UserEmail';
-
+import toast, { Toaster } from 'react-hot-toast';
+import ProtectedRoute from './components/ProtectedRoute.js';
 
 const URL = 'http://localhost:4000/'
 
@@ -18,6 +19,7 @@ function App() {
 
   let [loggedIn, setLoggedIn] = useState(false)
   let [userEmail, setUserEmail] = useState('')
+  let [Profile, setProfile] = useState('');
 
   const token = JSON.parse(localStorage.getItem('token'));
 
@@ -37,15 +39,13 @@ function App() {
 
   const login = (token) => {
     localStorage.setItem('token', JSON.stringify(token));
+    localStorage.setItem('email', JSON.stringify(userEmail));
     setLoggedIn(true);
   };
 
   const signIn = async (email, magicLink) => {
     try {
       let res = await axios.post(`${URL}login/user`, { email, magicLink });
-      console.log("Response from server:", res);
-      console.log("res token: " + res.data.token);
-  
       if (res.data.token) {
         login(res.data.token);
       }
@@ -65,6 +65,29 @@ function App() {
     setUserEmail('');
   }
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const email = localStorage.getItem('email');
+  
+    fetch('/perfil/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email,
+        password: this.state.userPassword,
+      }),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('Success:', data);
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+  }
+
   return (
     <div className="App">
     <Router>
@@ -77,8 +100,9 @@ function App() {
     setUserEmail={setUserEmail} />}
     />
     <Route
-    path="/home"
-    element={<Home />}
+    path="/profile"
+    element={
+      <Profile/>}
     />
     <Route
     path="verify/:email/:link"

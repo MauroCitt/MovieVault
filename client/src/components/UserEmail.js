@@ -1,5 +1,12 @@
 import React from 'react';
 import '../styles/UserEmail.css';
+import  { Toaster, toast } from 'sonner';
+
+const notify = () => toast.success('Email sent!', {style: {
+  background: 'white', padding: '16px',
+}, className: 'custom-toast',
+duration: 5000,
+});
 
 const UserEmail = (props) => {
   return (
@@ -14,12 +21,15 @@ const UserEmail = (props) => {
             value={props.userEmail}  
             onChange={props.enterEmail} 
           />
-          <button type="submit" id='btnEntrar'>Entrar</button>
+          <button type="submit" id='btnEntrar' onClick={notify}>
+              Entrar
+          </button>
+          <Toaster position="bottom-right" />
         </form>
       </div>
       <div className="right-half">
         <img
-          src="client\src\images\collagePeliculas.jpg"  
+          src="..\images\collagePeliculas.jpg"  
           alt="Right Half"
           width={500}
           height={500}

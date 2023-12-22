@@ -8,7 +8,7 @@ export default function Enter(props) {
 	useEffect(()=>{
 		debugger
 		props.signIn(params.email, params.link)
-		navigate('/home')
+		navigate('/profile')
 	},[])
 
 	return (
