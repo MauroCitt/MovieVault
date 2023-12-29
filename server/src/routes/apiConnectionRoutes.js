@@ -7,12 +7,9 @@ const { render } = require('../server.js');
 
 const router = Router();
 
-// router.get('/login', function(req, res, next) {
-//     res.render('index', { error: false });
-// });
-
 router.post('/login/user', auth.login);
-router.get('/verify', auth.verify_token); 
+router.post('/verify', auth.verify_token);
+router.post('/perfil/register', auth.savePass);
 
 router.get('/', (req, res) => {
     res.render('home');

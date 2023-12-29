@@ -7,7 +7,6 @@ const cors = require('cors');
 
 const server = express();
 
-
 server.set('view engine', 'pug');   
 server.set('views', path.join(__dirname, 'views'));
 server.set('port', process.env.PORT || 4000);

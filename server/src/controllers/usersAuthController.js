@@ -4,6 +4,7 @@ const validator = require("validator");
 const jwt_secret = process.env.JWT_SECRET;
 const { v4: uuidv4 } = require('uuid');
 const { sendMagicLink } = require('./emailEnvioController.js');
+const bcrypt = require('bcrypt');
 
 const register = async (email) => {
   try {
@@ -58,7 +59,7 @@ const login = async (req, res) => {
     
     } else if (user.MagicLink == magicLink && !user.MagicLinkExpired) {
       console.log("Generating token...");
-      const token = jwt.sign(user.toJSON(), jwt_secret, { expiresIn: "1h" });
+      const token = jwt.sign(user.toJSON(), jwt_secret, { expiresIn: "5h" });
       await User.findOneAndUpdate(
         { Email: email },
         { MagicLinkExpired: true }
@@ -79,9 +80,42 @@ const verify_token = (req, res) => {
 	const token = req.headers.authorization;
 	jwt.verify(token, jwt_secret, (err, succ) => {
 		err
-		? res.json({ ok: false, message: "something went wrong" })
+		? console.error("Error de jwt: " + err)
 		: res.json({ ok: true, succ });
 	});
 };
 
-module.exports = { login, verify_token };
+const savePass = async (req, res) => {
+  const { email, password } = req.body;
+  
+  try {
+    const user = await User.findOne({ Email: email });
+    if (!user) {
+      console.log("User not found");
+      return res.json({ ok: false, message: "Usuario no encontrado" });
+    } else {
+      console.log("Updating password...");
+      bcrypt.genSalt(10, function(err, Salt) {
+        bycript.hash(password, Salt, function(err, hash){
+        if(err){
+          return('Cant Encrypt');
+        }
+        
+        const hashPass = hash;
+        });
+      });
+
+      const updatedUser = await User.findOneAndUpdate(
+        { Email: email },
+        { Password: password },
+        { returnDocument: 'after' }
+      );
+      res.send({ ok: true, message: 'Contraseña creada' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ ok: false, error });
+  }
+}
+
+module.exports = { login, verify_token, savePass };
