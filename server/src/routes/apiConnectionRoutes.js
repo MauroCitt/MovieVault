@@ -3,13 +3,13 @@ const { apiConnectionController } = require('../controllers/apiConnectionControl
 const genreConnectionController = require('../controllers/genreConnectionController.js');
 const crewApiController = require('../controllers/crewApiController.js');
 const auth = require('../controllers/usersAuthController.js');
-const { render } = require('../server.js');
-
 const router = Router();
 
 router.post('/login/user', auth.login);
 router.post('/verify', auth.verify_token);
-router.post('/perfil/register', auth.savePass);
+router.post('/profile/register', auth.signUp);
+router.post('/profile/verify', auth.checkingPass);
+router.post('/logout', auth.logout);
 
 router.get('/', (req, res) => {
     res.render('home');

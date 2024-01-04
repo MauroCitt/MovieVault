@@ -1,51 +1,137 @@
-import logo from './logo.svg';
 import './App.css';
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
-import Enter from './components/Enter.js';
+import Enter from './components/auth/Enter.js';
 import Profile from './components/Profile.js';
-import UserEmail from './components/UserEmail';
-import ProtectedRoute from './components/ProtectedRoute.js';
-import  { Toaster, toast } from 'sonner';
+import UserEmail from './components/auth/UserEmail.js';
+import ProtectedRoute from './components/auth/ProtectedRoute.js';
 import Cookies from 'universal-cookie';
-import { jwtDecode } from "jwt-decode";
-import useAuth from './components/userAuth.js';
+import useAuth from './components/auth/userAuth.js';
+import { Toaster, toast } from 'sonner';
+import Home from './views/Home.js';
 
-const URL = 'http://localhost:4000/'
+
+const URL = 'http://localhost:4000/';
 
 function App() {
   const cookies = new Cookies();
   const { loggedIn, login, logout } = useAuth();
 
-  let [userEmail, setUserEmail] = useState('')
+  const [userEmail, setUserEmail] = useState('');
+  const[userPass, setUserPass] = useState('');
+  const [signInMode, setSignInMode] = useState(true);
+
+  const toggleMode = () => {
+    setSignInMode((prevMode) => !prevMode);
+  };
 
   const token = JSON.parse(localStorage.getItem('token'));
+  const email = JSON.parse(localStorage.getItem('email'));
 
-  const signIn = async (email, magicLink) => {
+  // ************** Sign in **************
+  const signIn = async (email, magicLink, signInMode, userPass) => {
+    console.log("email: " + email + " magicLink: " + magicLink + " signInMode: " + signInMode + " userPass: " + userPass);
+    if(signInMode){
+      console.log("checking pass");
+      console.log(email + " " + userPass);
+      checkingPass(email, userPass);
+    } else {
+      console.log("sending email");
     try {
       let res = await axios.post(`${URL}login/user`, { email, magicLink });
-      if (res.data.token) {
-        login(res.data.token);
+      if(res.data.emailSent){
+        notify();
+      } else if (!res.data.emailSent && !res.data.token){
+        notifyError(res.data.message);
+      }
+      else if (res.data.token) {
+        login(res.data.email, res.data.token);
       }
     } catch (e) {
       alert(e);
     }
   };
+};
 
+  // Email
   const enterEmail = (e) => {
-    setUserEmail(e.target.value)
-  }
+    setUserEmail(e.target.value);
+  };
 
-  const emailSubmit= (e) => {
+  const emailSubmit = (e) => {
     e.preventDefault();
-    console.log("User email:" + userEmail);
     signIn(userEmail);
     setUserEmail('');
+  };
+
+  const emailPassSubmit = (e) => {
+    e.preventDefault();
+    console.log(userPass);
+    signIn(userEmail, "", signInMode, userPass);
+    setUserEmail('');
+    setUserPass('');
   }
+
+
+  // ************** Sign up **************
+
+    // Password 
+    const enterPassword = (e) => {
+      setUserPass(e.target.value);
+      console.log(userPass);
+    };
+    
+  const passwordSubmit = (e) => {
+    e.preventDefault();
+    signUp(email, userPass);
+    console.log(userPass);
+    setUserPass('');
+  }
+
+  const signUp = async (email, pass) => {
+    try {
+      let res = await axios.post(`${URL}profile/register`, { email, pass });
+      if(res.data.ok){
+        checkingPass(email, pass);
+      }
+  } catch(e){
+    console.log(e);
+  }
+};
+
+const checkingPass = async (email, pass) => {
+  try{
+    let res = await axios.post(`${URL}profile/verify`, {email, pass}, {withCredentials: true});
+    if(res.data.passwordMatch){
+      login(email, res.data.tokenPass);
+    }
+  } catch(e){
+    console.log(e);
+  }
+}
+
+  const notify = () => toast.success('Email sent!', {
+    style: {
+      background: 'white',
+      padding: '16px',
+    },
+    className: 'custom-toast',
+    duration: 5000,
+  });
+
+  const notifyError = (message) => toast.error(message, {
+    style: {
+      background: 'white',
+      padding: '16px',
+    },
+    className: 'custom-toast',
+    duration: 5000,
+  });
 
   return (
     <div className="App">
+      <Toaster position="bottom-right" />
       <Router>
         <Routes>
           <Route
@@ -57,9 +143,15 @@ function App() {
                   emailSubmit={emailSubmit}
                   userEmail={userEmail}
                   setUserEmail={setUserEmail}
+                  signIn={signIn}
+                  signInMode={signInMode}
+                  toggleMode={toggleMode}
+                  emailPassSubmit={emailPassSubmit}
+                  userPass={userPass}
+                  enterPassword={enterPassword}
                 />
               ) : (
-                <Navigate to="/profile" />
+                signInMode ? <Navigate to="/home" /> :  <Navigate to="/profile" />
               )
             }
           />
@@ -67,7 +159,21 @@ function App() {
             path="/profile"
             element={
               <ProtectedRoute user={loggedIn}>
-                <Profile logout={logout}/>
+                <Profile logout={logout}
+                  enterPassword={enterPassword}
+                  email={email}
+                  userPass={userPass}
+                  setUserPass={setUserPass}
+                  passwordSubmit={passwordSubmit}
+                  />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/home"
+            element={
+              <ProtectedRoute user={loggedIn}>
+                <Home />
               </ProtectedRoute>
             }
           />

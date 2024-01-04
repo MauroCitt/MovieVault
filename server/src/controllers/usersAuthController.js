@@ -26,45 +26,32 @@ const login = async (req, res) => {
   console.log(email);
   if (!email) {
     console.log("Email not provided");
-    return res.json({ ok: false, message: "Debe llenar todos los campos" });
+    return res.json({ emailSent: false, message: "Debe llenar todos los campos" });
   }
-
   if (!validator.isEmail(email)) {
     console.log("Invalid email format");
-    return res.json({ ok: false, message: "El link no es válido" });
+    return res.json({ emailSent: false, message: "El link no es válido" });
   }
-
   try {
     const user = await User.findOne({ Email: email });
     if (!user) {
-
       console.log("User not found, registering...");
       let reg = await register(email);
-      res.send({ ok: true, message: 'Tu cuenta ha sido creada, presiona el enlace en el email para ingresar' });
-    
-    } else if (!magicLink) {
-      console.log("MagicLink not provided, updating...");
-      try {
-        const updatedUser = await User.findOneAndUpdate(
-          { Email: email },
-          { MagicLink: uuidv4(), MagicLinkExpired: false },
-          { returnDocument: 'after' }
-        );
-        sendMagicLink(email, updatedUser.MagicLink);
-        res.send({ ok: true, message: 'Haz clic en el enlace del email para acceder' });
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ ok: false, error });
-      }
-    
+      res.send({ emailSent: true, message: 'Tu cuenta ha sido creada, presiona el enlace en el email para ingresar' });
+    } else if (user && !user.FirstTime) {
+      res.json({ ok: false, message: "El usuario ya existe" });
     } else if (user.MagicLink == magicLink && !user.MagicLinkExpired) {
       console.log("Generating token...");
       const token = jwt.sign(user.toJSON(), jwt_secret, { expiresIn: "5h" });
       await User.findOneAndUpdate(
         { Email: email },
-        { MagicLinkExpired: true }
-      );
-      res.json({ ok: true, message: "Bienvenido de vuelta", token, email });
+        {
+          MagicLinkExpired: true,
+          FirstTime: false 
+        }
+
+        );
+      res.json({ ok: true, message: "Success", token, email });
     } else {
       console.log("Invalid magicLink or expired");
       return res.json({ ok: false, message: "El enlace ha expirado o es incorrecto" });
@@ -75,40 +62,42 @@ const login = async (req, res) => {
   }
 };
 
+const signUp = async (req, res) => {
+  const { email, pass } = req.body;
 
-const verify_token = (req, res) => {
-	const token = req.headers.authorization;
-	jwt.verify(token, jwt_secret, (err, succ) => {
-		err
-		? console.error("Error de jwt: " + err)
-		: res.json({ ok: true, succ });
-	});
-};
+  if (!email || !pass) {
+    console.log("Email or password not provided");
+    return res.json({ emailSent: false, message: "Debe llenar todos los campos" });
+  }
 
-const savePass = async (req, res) => {
-  const { email, password } = req.body;
-  
+  if (!validator.isEmail(email)) {
+    console.log("Invalid email format");
+    return res.json({ emailSent: false, message: "El link no es válido" });
+  } 
+
   try {
     const user = await User.findOne({ Email: email });
+
     if (!user) {
       console.log("User not found");
-      return res.json({ ok: false, message: "Usuario no encontrado" });
-    } else {
-      console.log("Updating password...");
-      bcrypt.genSalt(10, function(err, Salt) {
-        bycript.hash(password, Salt, function(err, hash){
-        if(err){
-          return('Cant Encrypt');
-        }
-        
-        const hashPass = hash;
+      return res.json({ ok: false, message: "El usuario no existe" });
+    } else if (user && user.Password == null && !user.FirstTime) {
+      console.log("User exists, creating password...");
+
+      const hashPass = await new Promise((resolve, reject) => {
+        bcrypt.genSalt(10, function(err, Salt) {
+          bcrypt.hash(pass, Salt, function(err, hash) {
+            if (err) {
+              reject('Cant Encrypt');
+            }
+            resolve(hash);
+          });
         });
       });
 
-      const updatedUser = await User.findOneAndUpdate(
+      await User.findOneAndUpdate(
         { Email: email },
-        { Password: password },
-        { returnDocument: 'after' }
+        { Password: hashPass }
       );
       res.send({ ok: true, message: 'Contraseña creada' });
     }
@@ -116,6 +105,43 @@ const savePass = async (req, res) => {
     console.error(error);
     res.status(500).json({ ok: false, error });
   }
+};
+
+
+
+const verify_token = (req, res) => {
+	const token = req.cookies.token;
+	jwt.verify(token, jwt_secret, (err, succ) => {
+		err
+		? console.error("Error de jwt: " + err)
+		: res.json({ ok: true, succ });
+	});
+};
+
+const checkingPass = async (req, res) => {
+  const {email, pass} = req.body;
+  let tokenPass = null;
+  console.log(email + " " + pass);
+
+  try {
+    const user = await User.findOne({Email: email});
+
+    if (user && user.Password) {
+      const passwordMatch = await bcrypt.compare(pass, user.Password);
+      if (passwordMatch) {
+        tokenPass = jwt.sign({ email }, jwt_secret, { expiresIn: "5h" });
+      }
+      res.cookie('token', tokenPass, { httpOnly: true, secure: true, sameSite: 'none' });
+      return res.json({passwordMatch: true, tokenPass});
+    }
+  } catch(error){
+    console.log(error);
+  }
 }
 
-module.exports = { login, verify_token, savePass };
+const logout = (req, res) => {
+  res.clearCookie('token');
+  res.json({ok: true});
+}
+
+module.exports = { login, verify_token, signUp, checkingPass, logout };
