@@ -21,6 +21,7 @@ function App() {
   const [userEmail, setUserEmail] = useState('');
   const[userPass, setUserPass] = useState('');
   const [signInMode, setSignInMode] = useState(true);
+  const [passwordEditable, setPasswordEditable] = useState(true);
 
   const toggleMode = () => {
     setSignInMode((prevMode) => !prevMode);
@@ -93,6 +94,7 @@ function App() {
     try {
       let res = await axios.post(`${URL}profile/register`, { email, pass });
       if(res.data.ok){
+        setPasswordEditable(false);
         checkingPass(email, pass);
       }
   } catch(e){
@@ -103,8 +105,12 @@ function App() {
 const checkingPass = async (email, pass) => {
   try{
     let res = await axios.post(`${URL}profile/verify`, {email, pass}, {withCredentials: true});
+    console.log(res.data.passwordMatch);
     if(res.data.passwordMatch){
       login(email, res.data.tokenPass);
+    } else {
+      console.log("Wrong password");
+      notifyError("Wrong password");
     }
   } catch(e){
     console.log(e);
@@ -151,7 +157,7 @@ const checkingPass = async (email, pass) => {
                   enterPassword={enterPassword}
                 />
               ) : (
-                signInMode ? <Navigate to="/home" /> :  <Navigate to="/profile" />
+                <Navigate to="/profile" />
               )
             }
           />
@@ -165,6 +171,7 @@ const checkingPass = async (email, pass) => {
                   userPass={userPass}
                   setUserPass={setUserPass}
                   passwordSubmit={passwordSubmit}
+                  passwordEditable={passwordEditable}
                   />
               </ProtectedRoute>
             }

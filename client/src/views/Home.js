@@ -8,7 +8,7 @@ const Home = (props) => {
     return (
         <div>
             <NavbarHome />
-            <h1>Home</h1>
+            <h1 class='text-white'>Home</h1>
         </div>
     );
 }

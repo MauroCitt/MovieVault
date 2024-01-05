@@ -130,9 +130,11 @@ const checkingPass = async (req, res) => {
       const passwordMatch = await bcrypt.compare(pass, user.Password);
       if (passwordMatch) {
         tokenPass = jwt.sign({ email }, jwt_secret, { expiresIn: "5h" });
+        res.cookie('token', tokenPass, { httpOnly: true, secure: true, sameSite: 'none' });
+        return res.json({passwordMatch: true, tokenPass});
+      } else {
+        return res.json({passwordMatch: false});
       }
-      res.cookie('token', tokenPass, { httpOnly: true, secure: true, sameSite: 'none' });
-      return res.json({passwordMatch: true, tokenPass});
     }
   } catch(error){
     console.log(error);
