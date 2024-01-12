@@ -34,16 +34,22 @@ const UserEmail = (props) => {
                 onChange={props.enterPassword}
               />
             )}
-
             <button type="submit" id='btnEntrar'>
               {props.signInMode ? 'Sign In' : 'Sign Up'}
             </button>
           </form>
         </div>
+
         <div className="footer">
           <span onClick={toggleMode}>
             {props.signInMode ? 'New user? Sign Up' : 'Already have an account? Sign In'}
           </span>
+          
+          {props.signInMode && (
+              <span onClick={props.navigateToOPT}>
+                Recover Password
+              </span>
+            )}
         </div>
       </div>
       <div className="right-half">

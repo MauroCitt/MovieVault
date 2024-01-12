@@ -10,7 +10,9 @@ import Cookies from 'universal-cookie';
 import useAuth from './components/auth/userAuth.js';
 import { Toaster, toast } from 'sonner';
 import Home from './views/Home.js';
-
+import RecoverPass from './components/passRecovery/RecoverPass.jsx';
+import OTPInput from './components/passRecovery/OTPInput.jsx';
+import RecoverPassForm from './components/passRecovery/RecoverPassForm.jsx';
 
 const URL = 'http://localhost:4000/';
 
@@ -20,8 +22,10 @@ function App() {
 
   const [userEmail, setUserEmail] = useState('');
   const[userPass, setUserPass] = useState('');
+  const[userPassConfirmation, setUserPassConfirmation] = useState('');
   const [signInMode, setSignInMode] = useState(true);
   const [passwordEditable, setPasswordEditable] = useState(true);
+  const [validOTP, setValidOTP] = useState(false);
 
   const toggleMode = () => {
     setSignInMode((prevMode) => !prevMode);
@@ -29,20 +33,18 @@ function App() {
 
   const token = JSON.parse(localStorage.getItem('token'));
   const email = JSON.parse(localStorage.getItem('email'));
+  const OTP = JSON.parse(localStorage.getItem('OTP'));
+  let passLength;
 
   // ************** Sign in **************
   const signIn = async (email, magicLink, signInMode, userPass) => {
-    console.log("email: " + email + " magicLink: " + magicLink + " signInMode: " + signInMode + " userPass: " + userPass);
     if(signInMode){
-      console.log("checking pass");
-      console.log(email + " " + userPass);
       checkingPass(email, userPass);
     } else {
-      console.log("sending email");
     try {
       let res = await axios.post(`${URL}login/user`, { email, magicLink });
       if(res.data.emailSent){
-        notify();
+        notify(res.data.message);
       } else if (!res.data.emailSent && !res.data.token){
         notifyError(res.data.message);
       }
@@ -68,7 +70,6 @@ function App() {
 
   const emailPassSubmit = (e) => {
     e.preventDefault();
-    console.log(userPass);
     signIn(userEmail, "", signInMode, userPass);
     setUserEmail('');
     setUserPass('');
@@ -86,9 +87,15 @@ function App() {
   const passwordSubmit = (e) => {
     e.preventDefault();
     signUp(email, userPass);
-    console.log(userPass);
+    passLength = userPass.length;
     setUserPass('');
   }
+
+   // Password confirmation
+   const enterPasswordConfirmation = (e) => {
+    setUserPassConfirmation(e.target.value);
+  };
+  
 
   const signUp = async (email, pass) => {
     try {
@@ -105,11 +112,9 @@ function App() {
 const checkingPass = async (email, pass) => {
   try{
     let res = await axios.post(`${URL}profile/verify`, {email, pass}, {withCredentials: true});
-    console.log(res.data.passwordMatch);
     if(res.data.passwordMatch){
       login(email, res.data.tokenPass);
     } else {
-      console.log("Wrong password");
       notifyError("Wrong password");
     }
   } catch(e){
@@ -117,7 +122,58 @@ const checkingPass = async (email, pass) => {
   }
 }
 
-  const notify = () => toast.success('Email sent!', {
+// ************** Password recovery **************
+
+const passwordResetSending = (e) => {
+  e.preventDefault();
+  let emailP = localStorage.getItem('email');
+  passwordReset(emailP, userPass, userPassConfirmation);
+  setUserPass('');
+  setUserPassConfirmation('');
+}
+
+const passwordReset = async (email, userPass, userPassRecovery) => {
+  try{
+    let res = await axios.post(`${URL}profile/passwordReset`, {email, userPass, userPassRecovery}, {withCredentials: true});
+    if(res.data.ok){
+      notify(res.data.message);
+      navigateToLogin();
+    } else {
+      notifyError(res.data.message);
+    }
+  } catch(e){
+    console.log(e);
+  }
+}
+
+//Recovering password
+const passwordRecoveringSent = (e) => {
+  e.preventDefault();
+  recoverPassword(userEmail);
+  console.log(userEmail);
+  localStorage.setItem('email', JSON.stringify(userEmail));
+  setUserEmail('');
+}
+
+
+const recoverPassword = async (email) => {
+  console.log(email);
+  try {
+    let res = await axios.post(`${URL}recoverPassword`, { email });
+    console.log(res.data);
+    if(!res.data.ok){
+      notifyError(res.data.message);
+    } else {
+      localStorage.setItem('OTP', res.data.OTP);
+      navigateToOPTInput();
+    }
+} catch(e){
+  console.log(e);
+}
+}
+
+  // ************** Toast **************
+  const notify = (message) => toast.success(message, {
     style: {
       background: 'white',
       padding: '16px',
@@ -134,6 +190,24 @@ const checkingPass = async (email, pass) => {
     className: 'custom-toast',
     duration: 5000,
   });
+
+  // ************** Navigation **************
+  const navigateToOPT = () => {
+    window.location.href = '/recoverPassword';
+  }
+
+  const navigateToLogin = () => {
+    window.location.href = '/login';
+  }
+  const navigateToPasswordReset = () => {
+    window.location.href = '/passwordReset';
+  }
+
+  const navigateToOPTInput = () => {
+    window.location.href = '/recoverPassword/validateOTP';
+  }
+
+  
 
   return (
     <div className="App">
@@ -155,6 +229,7 @@ const checkingPass = async (email, pass) => {
                   emailPassSubmit={emailPassSubmit}
                   userPass={userPass}
                   enterPassword={enterPassword}
+                  navigateToOPT={navigateToOPT}
                 />
               ) : (
                 <Navigate to="/profile" />
@@ -164,7 +239,6 @@ const checkingPass = async (email, pass) => {
           <Route
             path="/profile"
             element={
-              <ProtectedRoute user={loggedIn}>
                 <Profile logout={logout}
                   enterPassword={enterPassword}
                   email={email}
@@ -173,7 +247,6 @@ const checkingPass = async (email, pass) => {
                   passwordSubmit={passwordSubmit}
                   passwordEditable={passwordEditable}
                   />
-              </ProtectedRoute>
             }
           />
           <Route
@@ -185,6 +258,22 @@ const checkingPass = async (email, pass) => {
             }
           />
           <Route path="verify/:email/:link" element={<Enter signIn={signIn} />} />
+          <Route path='/recoverPassword' element={
+            <RecoverPass navigateToLogin={navigateToLogin} passwordRecoveringSent={passwordRecoveringSent} userEmail={userEmail} enterEmail={enterEmail} /> 
+          }/>
+          <Route path="/recoverPassword/validateOTP"
+            element={
+              <OTPInput
+                OTP={OTP}
+                validOTP={validOTP} 
+                setValidOTP={setValidOTP}
+                userEmail={userEmail} 
+                navigateToPasswordReset={navigateToPasswordReset}
+              />
+            }
+          />
+            <Route path='/passwordReset' element={<RecoverPassForm userPass={userPass} enterPassword={enterPassword} userPassConfirmation={userPassConfirmation} enterPasswordConfirmation={enterPasswordConfirmation} passwordResetSending={passwordResetSending}/>}/>
+          <Route path="/" element={loggedIn ? <Navigate to="/home" /> : <Navigate to="/login"/>} />
         </Routes>
       </Router>
     </div>

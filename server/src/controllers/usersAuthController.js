@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const validator = require("validator");
 const jwt_secret = process.env.JWT_SECRET;
 const { v4: uuidv4 } = require('uuid');
-const { sendMagicLink } = require('./emailEnvioController.js');
+const { sendMagicLink, recoverPassword } = require('./emailEnvioController.js');
 const bcrypt = require('bcrypt');
 
 const register = async (email) => {
@@ -146,4 +146,52 @@ const logout = (req, res) => {
   res.json({ok: true});
 }
 
-module.exports = { login, verify_token, signUp, checkingPass, logout };
+const recoverPasswordUser = async (req, res) => {
+  const {email} = req.body;
+  const user = await User.findOne({ Email: email });
+  console.log("emailR: " + email)
+
+  if (!user) {
+    console.log("User not found");
+    return res.json({ ok: false, message: "El usuario no existe" });
+  } else {
+    let OTP = Math.floor(1000 + Math.random() * 9000);
+
+  recoverPassword(email, OTP);
+  res.json({ok: true, OTP});
+  }
+};
+
+const changingPass = async (req, res) => {
+  const { email, userPass, userPassRecovery } = req.body;
+  const emailR = email.replace(/['"]+/g, '');
+
+  try {
+    const user = await User.findOne({ Email: emailR });
+
+    if (!user) {
+      console.log("User not found");
+      return res.json({ ok: false, message: "El usuario no existe" });
+    }
+
+    console.log("emailP: " + emailR);
+
+    if (userPassRecovery === userPass) {
+      const hashPass = await bcrypt.hash(userPass, 10);
+
+      await User.findOneAndUpdate(
+        { Email: emailR },
+        { Password: hashPass }
+      );
+
+      return res.json({ ok: true, message: 'Contraseña cambiada' });
+    } else {
+      return res.json({ ok: false, message: 'Algo salió mal' });
+    }
+  } catch (error) {
+    console.error("Error during password change:", error);
+    return res.json({ ok: false, message: 'Error during password change' });
+  }
+};
+
+module.exports = { login, verify_token, signUp, checkingPass, logout, recoverPasswordUser, changingPass };

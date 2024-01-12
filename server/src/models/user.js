@@ -27,6 +27,21 @@ const UserSchema = new mongoose.Schema({
 	FirstTime:{
 		type     : Boolean, 
 		default  : true
+	}, 
+	Image: { 
+		type     : String, 
+		required : false,
+		default  : null
+	},
+	userName: { 
+		type     : String, 
+		required : false,
+		default  : null
+	},
+	platforms: {
+		type     : Array, 
+		required : false,
+		default  : null
 	}
 },
 {strictQuery: false}
