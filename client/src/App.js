@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import Enter from './components/auth/Enter.js';
-import Profile from './components/Profile.js';
+import Profile from './components/profile/Profile.js';
 import UserEmail from './components/auth/UserEmail.js';
 import ProtectedRoute from './components/auth/ProtectedRoute.js';
 import Cookies from 'universal-cookie';
@@ -92,7 +92,7 @@ function App() {
   }
 
    // Password confirmation
-   const enterPasswordConfirmation = (e) => {
+  const enterPasswordConfirmation = (e) => {
     setUserPassConfirmation(e.target.value);
   };
   
@@ -112,10 +112,11 @@ function App() {
 const checkingPass = async (email, pass) => {
   try{
     let res = await axios.post(`${URL}profile/verify`, {email, pass}, {withCredentials: true});
+
     if(res.data.passwordMatch){
       login(email, res.data.tokenPass);
     } else {
-      notifyError("Wrong password");
+      notifyError(res.data.message);
     }
   } catch(e){
     console.log(e);

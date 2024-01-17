@@ -121,7 +121,11 @@ const verify_token = (req, res) => {
 const checkingPass = async (req, res) => {
   const {email, pass} = req.body;
   let tokenPass = null;
-  console.log(email + " " + pass);
+
+  if  (!email || !pass) {
+    console.log("Email or password not provided");
+    return res.json({ emailSent: false, message: "Debe llenar todos los campos" });
+  }
 
   try {
     const user = await User.findOne({Email: email});
@@ -133,7 +137,7 @@ const checkingPass = async (req, res) => {
         res.cookie('token', tokenPass, { httpOnly: true, secure: true, sameSite: 'none' });
         return res.json({passwordMatch: true, tokenPass});
       } else {
-        return res.json({passwordMatch: false});
+        return res.json({passwordMatch: false, message: 'Email o contraseña incorrecta'});
       }
     }
   } catch(error){
