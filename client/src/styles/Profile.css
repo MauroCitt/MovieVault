@@ -1,0 +1,36 @@
+.titulo {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-align: center;
+    color: rgb(245, 237, 237);
+}
+
+.formularioPerfil .email {
+    outline: none;
+    border: 1px solid #ccc;
+    background: #dbdbdb;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    padding: 0.5em;
+    border-radius: 5px;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+}
+
+#btnSalida #btnGuardarPass {
+    cursor: pointer;
+    padding: 1em;
+    background: #974dec;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: background 0.3s;
+    margin-top: 40px;
+  }
+  
+  #btnSalida:hover {
+    background: #c56eee;
+  }
+  

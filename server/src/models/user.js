@@ -18,6 +18,30 @@ const UserSchema = new mongoose.Schema({
 	MagicLinkExpired: { 
 		type     : Boolean, 
 		default  : false
+	},
+	Password: { 
+		type     : String, 
+		required : false,
+		default  : null
+	},
+	FirstTime:{
+		type     : Boolean, 
+		default  : true
+	}, 
+	Image: { 
+		type     : String, 
+		required : false,
+		default  : null
+	},
+	userName: { 
+		type     : String, 
+		required : false,
+		default  : null
+	},
+	platforms: {
+		type     : Array, 
+		required : false,
+		default  : null
 	}
 },
 {strictQuery: false}
