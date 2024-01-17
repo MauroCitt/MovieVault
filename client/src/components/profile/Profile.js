@@ -9,15 +9,21 @@ const Platforms = ["Netflix", "HBO", "Disney+", "Amazon Prime Video", "Filmin"];
 
 const Profile = (props) => {
   const logoutButtonStyle = {
-    backgroundColor: "#A239CA",
+    backgroundColor: "#e61919",
     color: "white",
   };
+
+  const saveChangesButtonStyle = {
+    backgroundColor: "#A239CA",
+    color: "white",
+  }
+
 
   const [multiSelectVisible, setMultiSelectVisible] = useState(false);
 
   return (
     <div className="fondo">
-      <NavbarHome />
+      <NavbarHome logout={props.logout} />
       <div className="header">
         <h1 class="mb-4 mt-10 text-3xl font-extrabold text-white dark:text-white md:text-5xl lg:text-6xl">
             My Movie&nbsp; 
@@ -38,9 +44,8 @@ const Profile = (props) => {
                 <input
                   type="text"
                   id="email"
-                  className="form-control"
-                  class="block mb-10 px-2.5 pb-2.5 pt-4 pr-30 w-full text-sm text-gray-900 bg-white rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                  onChange={props.enterPassword}
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="John"
+                  onChange={props.enterEmail}
                   value={props.email}
                   disable
                 />
@@ -107,7 +112,7 @@ const Profile = (props) => {
                   className="btn bg-purple-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                   type="submit"
                   id="btnGuardarPass"
-                  style={logoutButtonStyle}
+                  style={saveChangesButtonStyle}
                 >
                   Save changes
                 </button>
@@ -120,7 +125,7 @@ const Profile = (props) => {
                   onClick={props.logout}
                   id="btnSalida"
                 >
-                  Logout
+                  Log out
                 </button>
               </div>
             </div>

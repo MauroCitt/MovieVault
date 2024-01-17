@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 
-const ImgUpload = ({ onChange, src }) => (
-    <label htmlFor="photo-upload" className="custom-file-upload fas">
+const ImgUpload = ({ onChange, src, onClick }) => (
+    <label htmlFor="photo-upload" className="custom-file-upload fas" onClick={onClick}>
         <div className="img-wrap img-upload">
             <img
                 htmlFor="photo-upload"
@@ -10,21 +10,21 @@ const ImgUpload = ({ onChange, src }) => (
                 className="max-w-xs max-h-xs rounded-full"
             />
         </div>
-        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload file</label>
+        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Click to upload</label>
         <input
-            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+            className="hidden"
             aria-describedby="file_input_help"
             id="file_input"
             type="file"
-            onChange={onChange}  
+            onChange={onChange}
         />
     </label>
 );
 
-
 const ProfileImageUploader = () => {
     const [file, setFile] = useState('');
     const [imagePreviewUrl, setImagePreviewUrl] = useState('https://github.com/OlgaKoplik/CodePen/blob/master/profile.jpg?raw=true');
+    const fileInputRef = useRef(null);
 
     const handlePhotoUpload = (e) => {
         e.preventDefault();
@@ -39,9 +39,19 @@ const ProfileImageUploader = () => {
         reader.readAsDataURL(uploadedFile);
     };
 
+    const handleClick = () => {
+        fileInputRef.current.click();
+    };
+
     return (
         <div>
-            <ImgUpload onChange={handlePhotoUpload} src={imagePreviewUrl} />
+            <ImgUpload onChange={handlePhotoUpload} src={imagePreviewUrl} onClick={handleClick} />
+            <input
+                ref={fileInputRef}
+                className="hidden"
+                type="file"
+                onChange={handlePhotoUpload}
+            />
         </div>
     );
 };
