@@ -233,21 +233,25 @@ const recoverPassword = async (email) => {
               )
             }
           />
-          <Route
-            path="/profile"
-            element={
-                <Profile logout={logout}
-                  enterPassword={enterPassword}
-                  email={email}
-                  userPass={userPass}
-                  setUserPass={setUserPass}
-                  passwordSubmit={passwordSubmit}
-                  passwordEditable={passwordEditable}
-                  user={user}
-                  enterUser={enterUser}
-                  />
-            }
-          />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute user={loggedIn}>
+
+                  <Profile logout={logout}
+                    enterPassword={enterPassword}
+                    email={email}
+                    userPass={userPass}
+                    setUserPass={setUserPass}
+                    passwordSubmit={passwordSubmit}
+                    passwordEditable={passwordEditable}
+                    user={user}
+                    enterUser={enterUser}
+                    />
+                </ProtectedRoute>
+
+              }
+            />
           <Route
             path="/home"
             element={

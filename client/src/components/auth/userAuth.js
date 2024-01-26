@@ -45,6 +45,7 @@ export default function useAuth() {
     localStorage.removeItem('token');
     setLoggedIn(false);
     axios.post(`${URL}logout`, {}, {withCredentials: true});
+    localStorage.removeItem('image');
     console.log('Logged out');
   }
 

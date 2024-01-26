@@ -1,5 +1,5 @@
 const Movie = require("../models/movie.js");
-const { ids } = require("./apiConnectionController.js");
+const { apiConnectionController } = require("./apiConnectionController.js");
 
 let fetch;
 
@@ -25,12 +25,19 @@ providerApiController.getJsonFile = async (req, res, next) => {
     };
 
     let allData = [];
+    let idsLista = [];
+
+    try {
+        idsLista = await apiConnectionController.getJsonFile(req, res, next);
+    } catch (error) {
+        console.log(error);
+    }
 
     try {
         const placeCode = "ES";
 
-        for (var id of ids) {
-            for (var idMovie of id) {
+        for (var ids of idsLista) {
+            for (var idMovie of ids) {
                 // Reset providers for each movie
                 let flatrateProviders = [];
                 let buyProviders = [];
@@ -52,10 +59,11 @@ providerApiController.getJsonFile = async (req, res, next) => {
                     );
                 
                     console.log(flatrateProviderNames);
-                
+                    
                     await Movie.findOneAndUpdate(
                         { id: idMovie },
-                        { providers: flatrateProviderNames }
+                        { providers: flatrateProviderNames },
+                        { new: true, upsert: true }
                     );
                 
                     allData.push(data);
@@ -63,11 +71,12 @@ providerApiController.getJsonFile = async (req, res, next) => {
             }
         }
 
-        res.json(allData);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
+        return;
     }
+
 };
 
 module.exports = providerApiController;

@@ -12,13 +12,13 @@
       "original_language": "en",
       "original_title": "Harry Potter and the Goblet of Fire",
       "overview": "When Harry Potter's name emerges from the Goblet of Fire, he becomes a competitor in a grueling battle for glory among three wizarding schools—the Triwizard Tournament. But since Harry never submitted his name for the Tournament, who did? Now Harry must confront a deadly dragon, fierce water demons and an enchanted maze only to find himself in the cruel grasp of He Who Must Not Be Named.",
-      "popularity": 138.534,
+      "popularity": 122.024,
       "poster_path": "/fECBtHlr0RB3foNHDiCBXeg9Bv9.jpg",
       "release_date": "2005-11-16",
       "title": "Harry Potter and the Goblet of Fire",
       "video": false,
       "vote_average": 7.8,
-      "vote_count": 19464
+      "vote_count": 19738
     },
     {
       "adult": false,
@@ -33,13 +33,13 @@
       "original_language": "en",
       "original_title": "Ratatouille",
       "overview": "Remy, a resident of Paris, appreciates good food and has quite a sophisticated palate. He would love to become a chef so he can create and enjoy culinary masterpieces to his heart's delight. The only problem is, Remy is a rat. When he winds up in the sewer beneath one of Paris' finest restaurants, the rodent gourmet finds himself ideally placed to realize his dream.",
-      "popularity": 109.303,
+      "popularity": 99.143,
       "poster_path": "/t3vaWRPSf6WjDSamIkKDs1iQWna.jpg",
       "release_date": "2007-06-28",
       "title": "Ratatouille",
       "video": false,
       "vote_average": 7.8,
-      "vote_count": 15892
+      "vote_count": 16100
     },
     {
       "adult": false,
@@ -53,13 +53,13 @@
       "original_language": "en",
       "original_title": "Pirates of the Caribbean: The Curse of the Black Pearl",
       "overview": "Jack Sparrow, a freewheeling 18th-century pirate, quarrels with a rival pirate bent on pillaging Port Royal. When the governor's daughter is kidnapped, Sparrow decides to help the girl's love save her.",
-      "popularity": 111.329,
+      "popularity": 101.326,
       "poster_path": "/z8onk7LV9Mmw6zKz4hT6pzzvmvl.jpg",
       "release_date": "2003-07-09",
       "title": "Pirates of the Caribbean: The Curse of the Black Pearl",
       "video": false,
       "vote_average": 7.8,
-      "vote_count": 19411
+      "vote_count": 19626
     },
     {
       "adult": false,
@@ -73,13 +73,50 @@
       "original_language": "en",
       "original_title": "Toy Story 3",
       "overview": "Woody, Buzz, and the rest of Andy's toys haven't been played with in years. With Andy about to go to college, the gang find themselves accidentally left at a nefarious day care center. The toys must band together to escape and return home to Andy.",
-      "popularity": 77.285,
+      "popularity": 60.255,
       "poster_path": "/AbbXspMOwdvwWZgVN0nabZq03Ec.jpg",
       "release_date": "2010-06-16",
       "title": "Toy Story 3",
       "video": false,
       "vote_average": 7.8,
-      "vote_count": 13894
+      "vote_count": 14020
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/qb6WoLJ9YtfhV7pgsTfUDlRYaCH.jpg",
+      "genre_ids": [
+        18
+      ],
+      "id": 84892,
+      "original_language": "en",
+      "original_title": "The Perks of Being a Wallflower",
+      "overview": "Pittsburgh, Pennsylvania, 1991. High school freshman Charlie is a wallflower, always watching life from the sidelines, until two senior students, Sam and her stepbrother Patrick, become his mentors, helping him discover the joys of friendship, music and love.",
+      "popularity": 40.905,
+      "poster_path": "/aKCvdFFF5n80P2VdS7d8YBwbCjh.jpg",
+      "release_date": "2012-09-20",
+      "title": "The Perks of Being a Wallflower",
+      "video": false,
+      "vote_average": 7.8,
+      "vote_count": 10018
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/oIwfoUFfWfESn0Y8u8jv9lc8li1.jpg",
+      "genre_ids": [
+        28,
+        53
+      ],
+      "id": 562,
+      "original_language": "en",
+      "original_title": "Die Hard",
+      "overview": "NYPD cop John McClane's plan to reconcile with his estranged wife is thrown for a serious loop when, minutes after he arrives at her office, the entire building is overtaken by a group of terrorists. With little help from the LAPD, wisecracking McClane sets out to single-handedly rescue the hostages and bring the bad guys down.",
+      "popularity": 49.59,
+      "poster_path": "/yFihWxQcmqcaBR31QM6Y8gT6aYV.jpg",
+      "release_date": "1988-07-15",
+      "title": "Die Hard",
+      "video": false,
+      "vote_average": 7.8,
+      "vote_count": 10533
     },
     {
       "adult": false,
@@ -93,32 +130,13 @@
       "original_language": "en",
       "original_title": "Donnie Darko",
       "overview": "After narrowly escaping a bizarre accident, a troubled teenager is plagued by visions of a large bunny rabbit that manipulates him to commit a series of crimes.",
-      "popularity": 44.614,
-      "poster_path": "/aHXY4WW8jCZdhABMe0HFohmlBT6.jpg",
-      "release_date": "2001-10-24",
+      "popularity": 45.162,
+      "poster_path": "/fhQoQfejY1hUcwyuLgpBrYs6uFt.jpg",
+      "release_date": "2001-01-19",
       "title": "Donnie Darko",
       "video": false,
       "vote_average": 7.8,
-      "vote_count": 11631
-    },
-    {
-      "adult": false,
-      "backdrop_path": "/yw55hiqnDOwZiXpkraXu114rmGz.jpg",
-      "genre_ids": [
-        28,
-        53
-      ],
-      "id": 562,
-      "original_language": "en",
-      "original_title": "Die Hard",
-      "overview": "NYPD cop John McClane's plan to reconcile with his estranged wife is thrown for a serious loop when, minutes after he arrives at her office, the entire building is overtaken by a group of terrorists. With little help from the LAPD, wisecracking McClane sets out to single-handedly rescue the hostages and bring the bad guys down.",
-      "popularity": 76.738,
-      "poster_path": "/yFihWxQcmqcaBR31QM6Y8gT6aYV.jpg",
-      "release_date": "1988-07-15",
-      "title": "Die Hard",
-      "video": false,
-      "vote_average": 7.8,
-      "vote_count": 10314
+      "vote_count": 11766
     },
     {
       "adult": false,
@@ -133,13 +151,13 @@
       "original_language": "en",
       "original_title": "The Dark Knight Rises",
       "overview": "Following the death of District Attorney Harvey Dent, Batman assumes responsibility for Dent's crimes to protect the late attorney's reputation and is subsequently hunted by the Gotham City Police Department. Eight years later, Batman encounters the mysterious Selina Kyle and the villainous Bane, a new terrorist leader who overwhelms Gotham's finest. The Dark Knight resurfaces to protect a city that has branded him an enemy.",
-      "popularity": 73.894,
+      "popularity": 71,
       "poster_path": "/hr0L2aueqlP2BYUblTTjmtn0hw4.jpg",
       "release_date": "2012-07-17",
       "title": "The Dark Knight Rises",
       "video": false,
       "vote_average": 7.8,
-      "vote_count": 21530
+      "vote_count": 21756
     },
     {
       "adult": false,
@@ -152,17 +170,37 @@
       "original_language": "en",
       "original_title": "Harry Potter and the Deathly Hallows: Part 1",
       "overview": "Harry, Ron and Hermione walk away from their last year at Hogwarts to find and destroy the remaining Horcruxes, putting an end to Voldemort's bid for immortality. But with Harry's beloved Dumbledore dead and Voldemort's unscrupulous Death Eaters on the loose, the world is more dangerous than ever.",
-      "popularity": 111.329,
+      "popularity": 113.923,
       "poster_path": "/iGoXIpQb7Pot00EEdwpwPajheZ5.jpg",
       "release_date": "2010-11-17",
       "title": "Harry Potter and the Deathly Hallows: Part 1",
       "video": false,
       "vote_average": 7.8,
-      "vote_count": 17936
+      "vote_count": 18176
     },
     {
       "adult": false,
-      "backdrop_path": "/su0cmtK55eKXq0QjW68LQslUhUY.jpg",
+      "backdrop_path": "/o0IWa75BXyXryNDVqw0xoXZzy1J.jpg",
+      "genre_ids": [
+        14,
+        18,
+        10752
+      ],
+      "id": 1417,
+      "original_language": "es",
+      "original_title": "El laberinto del fauno",
+      "overview": "Living with her tyrannical stepfather in a new home with her pregnant mother, 10-year-old Ofelia feels alone until she explores a decaying labyrinth guarded by a mysterious faun who claims to know her destiny. If she wishes to return to her real father, Ofelia must complete three terrifying tasks.",
+      "popularity": 39.627,
+      "poster_path": "/7PurMm0gUOJZ8Uk0oyuZlt1CKfJ.jpg",
+      "release_date": "2006-10-10",
+      "title": "Pan's Labyrinth",
+      "video": false,
+      "vote_average": 7.8,
+      "vote_count": 10046
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/skQN2UMQKQnOTmwplcYMx6ZF4jS.jpg",
       "genre_ids": [
         12,
         35,
@@ -172,13 +210,13 @@
       "original_language": "en",
       "original_title": "Back to the Future Part II",
       "overview": "Marty and Doc are at it again in this wacky sequel to the 1985 blockbuster as the time-traveling duo head to 2015 to nip some McFly family woes in the bud. But things go awry thanks to bully Biff Tannen and a pesky sports almanac. In a last-ditch attempt to set things straight, Marty finds himself bound for 1955 and face to face with his teenage parents -- again.",
-      "popularity": 49.28,
+      "popularity": 32.121,
       "poster_path": "/hQq8xZe5uLjFzSBt4LanNP7SQjl.jpg",
       "release_date": "1989-11-22",
       "title": "Back to the Future Part II",
       "video": false,
       "vote_average": 7.8,
-      "vote_count": 11948
+      "vote_count": 12105
     },
     {
       "adult": false,
@@ -192,13 +230,13 @@
       "original_language": "en",
       "original_title": "The Hateful Eight",
       "overview": "Bounty hunters seek shelter from a raging blizzard and get caught up in a plot of betrayal and deception.",
-      "popularity": 40.751,
+      "popularity": 35.888,
       "poster_path": "/jIywvdPjia2t3eKYbjVTcwBQlG8.jpg",
       "release_date": "2015-12-25",
       "title": "The Hateful Eight",
       "video": false,
-      "vote_average": 7.7,
-      "vote_count": 13389
+      "vote_average": 7.8,
+      "vote_count": 13535
     },
     {
       "adult": false,
@@ -213,13 +251,13 @@
       "original_language": "en",
       "original_title": "Zootopia",
       "overview": "Determined to prove herself, Officer Judy Hopps, the first bunny on Zootopia's police force, jumps at the chance to crack her first case - even if it means partnering with scam-artist fox Nick Wilde to solve the mystery.",
-      "popularity": 119.666,
+      "popularity": 74.708,
       "poster_path": "/hlK0e0wAQ3VLuJcsfIYPvb4JVud.jpg",
       "release_date": "2016-02-11",
       "title": "Zootopia",
       "video": false,
       "vote_average": 7.7,
-      "vote_count": 15375
+      "vote_count": 15544
     },
     {
       "adult": false,
@@ -235,13 +273,13 @@
       "original_language": "en",
       "original_title": "Big Hero 6",
       "overview": "A special bond develops between plus-sized inflatable robot Baymax, and prodigy Hiro Hamada, who team up with a group of friends to form a band of high-tech heroes.",
-      "popularity": 124.434,
+      "popularity": 87.35,
       "poster_path": "/2mxS4wUimwlLmI1xp6QW6NSU361.jpg",
       "release_date": "2014-10-24",
       "title": "Big Hero 6",
       "video": false,
       "vote_average": 7.7,
-      "vote_count": 14838
+      "vote_count": 14980
     },
     {
       "adult": false,
@@ -257,13 +295,32 @@
       "original_language": "en",
       "original_title": "Shrek",
       "overview": "It ain't easy bein' green -- especially if you're a likable (albeit smelly) ogre named Shrek. On a mission to retrieve a gorgeous princess from the clutches of a fire-breathing dragon, Shrek teams up with an unlikely compatriot -- a wisecracking donkey.",
-      "popularity": 117.868,
+      "popularity": 109.748,
       "poster_path": "/dyhaB19AICF7TO7CK2aD6KfymnQ.jpg",
       "release_date": "2001-05-18",
       "title": "Shrek",
       "video": false,
       "vote_average": 7.7,
-      "vote_count": 15956
+      "vote_count": 16177
+    },
+    {
+      "adult": false,
+      "backdrop_path": "/9IZvClXvhSxlp41eT0CyUEsyjqy.jpg",
+      "genre_ids": [
+        18,
+        10749
+      ],
+      "id": 12405,
+      "original_language": "en",
+      "original_title": "Slumdog Millionaire",
+      "overview": "A teenager reflects on his life after being accused of cheating on the Indian version of \"Who Wants to be a Millionaire?\".",
+      "popularity": 28.429,
+      "poster_path": "/c6w9WarTTjbOhFFeAuiQ4Q3TRXK.jpg",
+      "release_date": "2008-11-12",
+      "title": "Slumdog Millionaire",
+      "video": false,
+      "vote_average": 7.7,
+      "vote_count": 10108
     },
     {
       "adult": false,
@@ -276,13 +333,13 @@
       "original_language": "en",
       "original_title": "Harry Potter and the Chamber of Secrets",
       "overview": "Cars fly, trees fight back, and a mysterious house-elf comes to warn Harry Potter at the start of his second year at Hogwarts. Adventure and danger await when bloody writing on a wall announces: The Chamber Of Secrets Has Been Opened. To save Hogwarts will require all of Harry, Ron and Hermione’s magical abilities and courage.",
-      "popularity": 167.359,
+      "popularity": 138.652,
       "poster_path": "/sdEOH0992YZ0QSxgXNIGLq1ToUi.jpg",
       "release_date": "2002-11-13",
       "title": "Harry Potter and the Chamber of Secrets",
       "video": false,
       "vote_average": 7.7,
-      "vote_count": 20590
+      "vote_count": 20892
     },
     {
       "adult": false,
@@ -296,13 +353,13 @@
       "original_language": "en",
       "original_title": "Edward Scissorhands",
       "overview": "A small suburban town receives a visit from a castaway unfinished science experiment named Edward.",
-      "popularity": 53.208,
+      "popularity": 45.694,
       "poster_path": "/1RFIbuW9Z3eN9Oxw2KaQG5DfLmD.jpg",
       "release_date": "1990-12-07",
       "title": "Edward Scissorhands",
       "video": false,
       "vote_average": 7.7,
-      "vote_count": 12164
+      "vote_count": 12305
     },
     {
       "adult": false,
@@ -316,13 +373,13 @@
       "original_language": "en",
       "original_title": "The Avengers",
       "overview": "When an unexpected enemy emerges and threatens global safety and security, Nick Fury, director of the international peacekeeping agency known as S.H.I.E.L.D., finds himself in need of a team to pull the world back from the brink of disaster. Spanning the globe, a daring recruitment effort begins!",
-      "popularity": 161.972,
+      "popularity": 104.86,
       "poster_path": "/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg",
       "release_date": "2012-04-25",
       "title": "The Avengers",
       "video": false,
       "vote_average": 7.7,
-      "vote_count": 29350
+      "vote_count": 29620
     },
     {
       "adult": false,
@@ -336,75 +393,15 @@
       "original_language": "en",
       "original_title": "Nightcrawler",
       "overview": "When Lou Bloom, desperate for work, muscles into the world of L.A. crime journalism, he blurs the line between observer and participant to become the star of his own story. Aiding him in his effort is Nina, a TV-news veteran.",
-      "popularity": 56.033,
+      "popularity": 41.069,
       "poster_path": "/j9HrX8f7GbZQm1BrBiR40uFQZSb.jpg",
       "release_date": "2014-10-23",
       "title": "Nightcrawler",
       "video": false,
       "vote_average": 7.7,
-      "vote_count": 10125
-    },
-    {
-      "adult": false,
-      "backdrop_path": "/se5Hxz7PArQZOG3Nx2bpfOhLhtV.jpg",
-      "genre_ids": [
-        28,
-        12,
-        16,
-        10751
-      ],
-      "id": 9806,
-      "original_language": "en",
-      "original_title": "The Incredibles",
-      "overview": "Bob Parr has given up his superhero days to log in time as an insurance adjuster and raise his three children with his formerly heroic wife in suburbia. But when he receives a mysterious assignment, it's time to get back into costume.",
-      "popularity": 89.889,
-      "poster_path": "/2LqaLgk4Z226KkgPJuiOQ58wvrm.jpg",
-      "release_date": "2004-10-27",
-      "title": "The Incredibles",
-      "video": false,
-      "vote_average": 7.7,
-      "vote_count": 16727
-    },
-    {
-      "adult": false,
-      "backdrop_path": "/lh5lbisD4oDbEKgUxoRaZU8HVrk.jpg",
-      "genre_ids": [
-        28,
-        80,
-        18
-      ],
-      "id": 272,
-      "original_language": "en",
-      "original_title": "Batman Begins",
-      "overview": "Driven by tragedy, billionaire Bruce Wayne dedicates his life to uncovering and defeating the corruption that plagues his home, Gotham City.  Unable to work within the system, he instead creates a new identity, a symbol of fear for the criminal underworld - The Batman.",
-      "popularity": 75.324,
-      "poster_path": "/4MpN4kIEqUjW8OPtOQJXlTdHiJV.jpg",
-      "release_date": "2005-06-10",
-      "title": "Batman Begins",
-      "video": false,
-      "vote_average": 7.7,
-      "vote_count": 19762
-    },
-    {
-      "adult": false,
-      "backdrop_path": "/urDWNffjwmNi5IQaezw9GwqkUXa.jpg",
-      "genre_ids": [
-        12,
-        14
-      ],
-      "id": 767,
-      "original_language": "en",
-      "original_title": "Harry Potter and the Half-Blood Prince",
-      "overview": "As Lord Voldemort tightens his grip on both the Muggle and wizarding worlds, Hogwarts is no longer a safe haven. Harry suspects perils may even lie within the castle, but Dumbledore is more intent upon preparing him for the final battle fast approaching. Together they work to find the key to unlock Voldemorts defenses and to this end, Dumbledore recruits his old friend and colleague Horace Slughorn, whom he believes holds crucial information. Even as the decisive showdown looms, romance blossoms for Harry, Ron, Hermione and their classmates. Love is in the air, but danger lies ahead and Hogwarts may never be the same again.",
-      "popularity": 120.764,
-      "poster_path": "/z7uo9zmQdQwU5ZJHFpv2Upl30i1.jpg",
-      "release_date": "2009-07-15",
-      "title": "Harry Potter and the Half-Blood Prince",
-      "video": false,
-      "vote_average": 7.7,
-      "vote_count": 18281
+      "vote_count": 10242
     }
   ],
-  "total_pages": 14,
-  "total_results": 276
+  "total_pages": 15,
+  "total_results": 286
 }
