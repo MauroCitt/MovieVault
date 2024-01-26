@@ -13,7 +13,7 @@ function NavbarHome({ user }) {
         if (image) {
             setProfileImage(image);
         }
-    }, [user]);
+    }, []);
 
 
     return (

@@ -1,4 +1,5 @@
 const { Router } = require('express');
+
 const { apiConnectionController } = require('../controllers/apiConnectionController.js');
 const genreConnectionController = require('../controllers/genreConnectionController.js');
 const crewApiController = require('../controllers/crewApiController.js');
@@ -15,8 +16,10 @@ router.post('/logout', auth.logout);
 router.post('/recoverPassword', auth.recoverPasswordUser);
 router.post('/profile/passwordReset', auth.changingPass);
 
+router.put('/profile/updateUser', auth.updateUser);
 
-
+router.get('/profile/getUser', auth.getUserByEmail);
+router.get('/getUsername', auth.getUsername)
 router.get('/movies', apiConnectionController.getJsonFile);
 router.get('/genres', genreConnectionController.getJsonFile);
 router.get('/crew', crewApiController.getJsonFile);

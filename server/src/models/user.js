@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const { v4: uuidv4 } = require('uuid');
-const Schema   = mongoose.Schema
+const Schema = mongoose.Schema
 
 const UserSchema = new mongoose.Schema({
 

@@ -46,8 +46,9 @@ apiConnectionController.getJsonFile = async (req, res, next) => {
 
             allData.push(data);
         }
-
         res.json(allData);
+
+        return Promise.resolve(ids);
     } catch (error) {
         console.error(error);
     }
@@ -75,4 +76,4 @@ const guardarDatosEnMongoDB = async (movies) => {
     }
 }
 
-module.exports = {apiConnectionController, ids};
+module.exports = {apiConnectionController, getIds: () => ids};

@@ -4,12 +4,12 @@ import axios from 'axios';
 
 const ImgUpload = ({ onChange, src, onClick }) => (
     <label htmlFor="photo-upload" className="custom-file-upload fas" onClick={onClick}>
-        <div className="img-wrap img-upload">
+        <div className="img-wrap img-upload max-w-xs max-h-xs">
             <img
                 htmlFor="photo-upload"
                 src={src}
                 alt="Uploaded"
-                className="max-w-xs max-h-xs rounded-full hover-effect"
+                className="object-fill w-80 h-80 rounded-full hover-effect"
                 id='photoUpload'
             />
         </div>
@@ -22,10 +22,10 @@ const ImgUpload = ({ onChange, src, onClick }) => (
         />
     </label>
 );
-
 const ProfileImageUploader = (props) => {
     const [file, setFile] = useState('');
     const [user, setUser] = useState(null);
+    const [imageChanged, setImageChanged] = useState(false);
 
     let email = props.email;
 
@@ -34,17 +34,18 @@ const ProfileImageUploader = (props) => {
             try {
                 const res = await axios.get(`http://localhost:4000/profile/getUser?email=${email}`);
                 setUser(res.data.user);
-                if (user.Image !== null) {
-                    props.setImage(user.Image);
-                    localStorage.setItem('image', props.image);
-                    console.log('hola')
+                if (user) {
+                    if (user.Image) {
+                        props.setImage(user.Image);
+                        localStorage.setItem('image', props.image);
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching user:', error);
             }
         };
         fetchUser();
-    }, [email]);
+    }, []);
 
     useEffect(() => {
         if (user)
@@ -53,6 +54,10 @@ const ProfileImageUploader = (props) => {
             }
     }, [user]);
 
+    if (imageChanged) {
+        console.log("linea 59")
+        window.location.reload();
+    }
     const fileInputRef = useRef(null);
 
     const handlePhotoUpload = (e) => {
@@ -87,6 +92,7 @@ const ProfileImageUploader = (props) => {
             await axios.put(`http://localhost:4000/profile/updateUser?email=${email}&profileImage=${url}`, {
             }).then(console.log('URL: ' + url));
             props.setImage((prevImage) => url);
+            setImageChanged(true);
         });
     };
 

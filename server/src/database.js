@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
-const {MOVIE_VAULT_MONGODB_HOST, MOVIE_VAULT_MONGODB_DATABASE} = process.env;
-const MONGODB_URI = `mongodb://${MOVIE_VAULT_MONGODB_HOST}/${MOVIE_VAULT_MONGODB_DATABASE}`;
+const {MOVIE_VAULT_MONGODB_USERNAME, MONGO_PASS, MOVIE_VAULT_MONGODB_DATABASE, MOVIE_VAULT_MONGODB_CLUSTER} = process.env;
+const uri = "mongodb+srv://mauritox:123@moviecluster.s7aig4l.mongodb.net/?retryWrites=true&w=majority";
 
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const conexion = mongoose.connection;
 
