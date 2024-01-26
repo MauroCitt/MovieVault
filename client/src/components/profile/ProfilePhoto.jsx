@@ -1,4 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import axios from 'axios';
 
 const ImgUpload = ({ onChange, src, onClick }) => (
     <label htmlFor="photo-upload" className="custom-file-upload fas" onClick={onClick}>
@@ -7,10 +9,10 @@ const ImgUpload = ({ onChange, src, onClick }) => (
                 htmlFor="photo-upload"
                 src={src}
                 alt="Uploaded"
-                className="max-w-xs max-h-xs rounded-full"
+                className="max-w-xs max-h-xs rounded-full hover-effect"
+                id='photoUpload'
             />
         </div>
-        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">Click to upload</label>
         <input
             className="hidden"
             aria-describedby="file_input_help"
@@ -21,9 +23,36 @@ const ImgUpload = ({ onChange, src, onClick }) => (
     </label>
 );
 
-const ProfileImageUploader = () => {
+const ProfileImageUploader = (props) => {
     const [file, setFile] = useState('');
-    const [imagePreviewUrl, setImagePreviewUrl] = useState('https://github.com/OlgaKoplik/CodePen/blob/master/profile.jpg?raw=true');
+    const [user, setUser] = useState(null);
+
+    let email = props.email;
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const res = await axios.get(`http://localhost:4000/profile/getUser?email=${email}`);
+                setUser(res.data.user);
+                if (user.Image !== null) {
+                    props.setImage(user.Image);
+                    localStorage.setItem('image', props.image);
+                    console.log('hola')
+                }
+            } catch (error) {
+                console.error('Error fetching user:', error);
+            }
+        };
+        fetchUser();
+    }, [email]);
+
+    useEffect(() => {
+        if (user)
+            if (user.Image) {
+                props.setImage(user.Image);
+            }
+    }, [user]);
+
     const fileInputRef = useRef(null);
 
     const handlePhotoUpload = (e) => {
@@ -33,9 +62,10 @@ const ProfileImageUploader = () => {
 
         reader.onloadend = () => {
             setFile(uploadedFile);
-            setImagePreviewUrl(reader.result);
+            props.setImage(reader.result);
         };
 
+        handleImageSubmit(uploadedFile);
         reader.readAsDataURL(uploadedFile);
     };
 
@@ -43,13 +73,31 @@ const ProfileImageUploader = () => {
         fileInputRef.current.click();
     };
 
+    const handleImageSubmit = async (uploadedFile) => {
+
+        const fileName = email;
+        const storage = getStorage();
+        const storageRef = ref(storage, `images/${fileName}`);
+
+        await uploadBytes(storageRef, uploadedFile).then((snapshot) => {
+            console.log('Uploaded a blob or file!');
+        });
+
+        getDownloadURL(storageRef).then(async (url) => {
+            await axios.put(`http://localhost:4000/profile/updateUser?email=${email}&profileImage=${url}`, {
+            }).then(console.log('URL: ' + url));
+            props.setImage((prevImage) => url);
+        });
+    };
+
     return (
         <div>
-            <ImgUpload onChange={handlePhotoUpload} src={imagePreviewUrl} onClick={handleClick} />
+            <ImgUpload onChange={handlePhotoUpload} src={props.image} onClick={handleClick} />
             <input
                 ref={fileInputRef}
                 className="hidden"
                 type="file"
+                id='photoUpload'
                 onChange={handlePhotoUpload}
             />
         </div>

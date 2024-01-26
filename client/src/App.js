@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import Enter from './components/auth/Enter.js';
-import Profile from './components/profile/Profile.js';
+import Profile from './components/profile/Profile.jsx';
 import UserEmail from './components/auth/UserEmail.js';
 import ProtectedRoute from './components/auth/ProtectedRoute.js';
 import Cookies from 'universal-cookie';
@@ -22,6 +22,7 @@ function App() {
 
   const [userEmail, setUserEmail] = useState('');
   const[userPass, setUserPass] = useState('');
+  const[user, setUser] = useState(''); 
   const[userPassConfirmation, setUserPassConfirmation] = useState('');
   const [signInMode, setSignInMode] = useState(true);
   const [passwordEditable, setPasswordEditable] = useState(true);
@@ -31,10 +32,8 @@ function App() {
     setSignInMode((prevMode) => !prevMode);
   };
 
-  const token = JSON.parse(localStorage.getItem('token'));
   const email = JSON.parse(localStorage.getItem('email'));
   const OTP = JSON.parse(localStorage.getItem('OTP'));
-  let passLength;
 
   // ************** Sign in **************
   const signIn = async (email, magicLink, signInMode, userPass) => {
@@ -75,34 +74,37 @@ function App() {
     setUserPass('');
   }
 
+// User
+const enterUser = (e) => {
+  setUser(e.target.value);
+}
 
-  // ************** Sign up **************
+// ************** Sign up **************
 
-    // Password 
-    const enterPassword = (e) => {
-      setUserPass(e.target.value);
-      console.log(userPass);
-    };
-    
+  // Password 
+  const enterPassword = (e) => {
+    setUserPass(e.target.value);
+  };
+
   const passwordSubmit = (e) => {
     e.preventDefault();
-    signUp(email, userPass);
-    passLength = userPass.length;
+    signUp(email, userPass, user);
     setUserPass('');
+    setUser('');
   }
 
-   // Password confirmation
   const enterPasswordConfirmation = (e) => {
     setUserPassConfirmation(e.target.value);
   };
-  
 
-  const signUp = async (email, pass) => {
+  const signUp = async (email, pass, username) => {
     try {
-      let res = await axios.post(`${URL}profile/register`, { email, pass });
+      let res = await axios.post(`${URL}profile/register`, { email, pass, username });
       if(res.data.ok){
         setPasswordEditable(false);
         checkingPass(email, pass);
+      } else {
+        notifyError(res.data.message);
       }
   } catch(e){
     console.log(e);
@@ -151,26 +153,22 @@ const passwordReset = async (email, userPass, userPassRecovery) => {
 const passwordRecoveringSent = (e) => {
   e.preventDefault();
   recoverPassword(userEmail);
-  console.log(userEmail);
   localStorage.setItem('email', JSON.stringify(userEmail));
   setUserEmail('');
 }
 
-
 const recoverPassword = async (email) => {
-  console.log(email);
   try {
     let res = await axios.post(`${URL}recoverPassword`, { email });
-    console.log(res.data);
     if(!res.data.ok){
       notifyError(res.data.message);
     } else {
       localStorage.setItem('OTP', res.data.OTP);
       navigateToOPTInput();
     }
-} catch(e){
-  console.log(e);
-}
+  } catch(e){
+    console.log(e);
+  }
 }
 
   // ************** Toast **************
@@ -207,8 +205,6 @@ const recoverPassword = async (email) => {
   const navigateToOPTInput = () => {
     window.location.href = '/recoverPassword/validateOTP';
   }
-
-  
 
   return (
     <div className="App">
@@ -247,15 +243,15 @@ const recoverPassword = async (email) => {
                   setUserPass={setUserPass}
                   passwordSubmit={passwordSubmit}
                   passwordEditable={passwordEditable}
+                  user={user}
+                  enterUser={enterUser}
                   />
             }
           />
           <Route
             path="/home"
             element={
-              <ProtectedRoute user={loggedIn}>
                 <Home />
-              </ProtectedRoute>
             }
           />
           <Route path="verify/:email/:link" element={<Enter signIn={signIn} />} />
