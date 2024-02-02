@@ -10,7 +10,9 @@ const movieSchema = new Schema
         providers: [{type: String}],
         popularity: {type: Number},
         vote_count: {type: Number},
-        vote_average: {type: Number}
+        vote_average: {type: Number},
+        release_date: {type: String},
+        synopsis: {type: String},
     });
 
     module.exports = model('movie', movieSchema);

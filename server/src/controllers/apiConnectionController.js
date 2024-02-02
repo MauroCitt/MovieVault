@@ -1,5 +1,6 @@
 const fs = require('fs');
 const Movie = require('../models/movie'); // Adjust the path based on your project structure
+const { release } = require('os');
 
 let fetch;
 let ids = [];
@@ -35,13 +36,13 @@ apiConnectionController.getJsonFile = async (req, res, next) => {
 
     try {
         let allData = [];
-        for (let index = 1; index < 7; index++) {
+        for (let index = 1; index < 14; index++) {
             let currentUrlApi = urlApi.replace(/page=\d+/, `page=${index}`);
             let response = await fetch(currentUrlApi, options);
             let data = await response.json();
             const movies = data.results;
             ids.push(movies.map((movie) => movie.id));
-            await guardarDatosEnMongoDB(movies);
+            await saveMoviesToMongoDB(movies);
             fs.writeFileSync("peliculasOrdenadas" + index + ".json", JSON.stringify(data, null, 2));
 
             allData.push(data);
@@ -54,7 +55,7 @@ apiConnectionController.getJsonFile = async (req, res, next) => {
     }
 };
 
-const guardarDatosEnMongoDB = async (movies) => {
+const saveMoviesToMongoDB = async (movies) => {
     try {
         for (const movieData of movies) {
             const movie = new Movie({
@@ -65,7 +66,9 @@ const guardarDatosEnMongoDB = async (movies) => {
                 crew: movieData.crew,
                 popularity: movieData.popularity,
                 vote_count: movieData.vote_count,
-                vote_average: movieData.vote_average
+                vote_average: movieData.vote_average,
+                release_date: movieData.release_date,
+                synopsis: movieData.overview
             });
             await movie.save();
         }
@@ -76,4 +79,6 @@ const guardarDatosEnMongoDB = async (movies) => {
     }
 }
 
-module.exports = {apiConnectionController, getIds: () => ids};
+apiConnectionController.getIds = () => ids;
+
+module.exports = apiConnectionController;

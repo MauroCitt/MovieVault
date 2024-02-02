@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { apiConnectionController } = require("./apiConnectionController.js");
+const apiConnectionController = require("./apiConnectionController.js");
 const Movie = require("../models/movie");
 const Director = require("../models/director");
 
@@ -15,6 +15,9 @@ const apiKey = "4ede0b04611cdf9bdd6b1943d9ac3f24";
 const authorization =
     "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0ZWRlMGIwNDYxMWNkZjliZGQ2YjE5NDNkOWFjM2YyNCIsInN1YiI6IjY1NGI3NTYxZmQ0ZjgwMDBjN2ZlNWY4NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Wzm-mDwRjmcNv_Nx3XkJtZrxfcfkC805GvdNYUg5stc";
 
+const urlApiMovie = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_average.desc&vote_count.gte=10000';
+
+
 crewApiController.getJsonFile = async (req, res, next) => {
     const options = {
         method: "GET",
@@ -29,7 +32,13 @@ crewApiController.getJsonFile = async (req, res, next) => {
     let idsLista = [];
 
     try {
-        idsLista = await apiConnectionController.getJsonFile(req, res, next);
+        for (let index = 1; index < 14; index++) {
+            let currentUrlApi = urlApiMovie.replace(/page=\d+/, `page=${index}`);
+            let response = await fetch(currentUrlApi, options);
+            let data = await response.json();
+            const movies = data.results;
+            idsLista.push(movies.map((movie) => movie.id));
+        }
     } catch (error) {
         console.log(error);
     }
@@ -45,6 +54,8 @@ crewApiController.getJsonFile = async (req, res, next) => {
 
                 let director = null;
                 let mainActors = [];
+
+                console.log(id);
 
                 for (let person of crew) {
                     if (person.job === "Director") {

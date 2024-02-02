@@ -12,7 +12,7 @@ server.set('views', path.join(__dirname, 'views'));
 server.set('port', process.env.PORT || 4000);
 
 server.use(cookie());
-const corsOptions = {credentials: true, origin: 'http://localhost:3000'};
+const corsOptions = {credentials: true, origin: 'http://192.168.1.118:3001'};
 server.use(cors(corsOptions));
 
 server.use(morgan('dev'));

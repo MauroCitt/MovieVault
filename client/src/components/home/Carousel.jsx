@@ -19,10 +19,10 @@ import slide_image_7 from '../../images/PerfectBlue.jpg'
 const carousel = () => {
     return (
         <div className="container bg-slate-800 mt-4">
-            <h1 className="heading text-white saira-condensed">
+            <h1 className="heading text-white font-saira-600">
                 ¿No sabes qué ver?
             </h1>
-            <h2 className="text-white saira-condensed mb-10">
+            <h2 className="text-white font-inter mb-10">
                 Revisa la bóveda con las mejores películas
             </h2>
             <Swiper
@@ -76,13 +76,13 @@ const carousel = () => {
                 </SwiperSlide>
 
                 <div className="slider-controler">
-                    <div className="swiper-button-prev slider-arrow">
+                    <div className="swiper-button-prev slider-arrow mr-40">
                         <ion-icon name="arrow-back-outline"></ion-icon>
                     </div>
-                    <div className="swiper-button-next slider-arrow">
+                    <div className="swiper-button-next slider-arrow ml-40">
                         <ion-icon name="arrow-forward-outline"></ion-icon>
                     </div>
-                    <div className="swiper-pagination"></div>
+                    <div className="swiper-pagination mt-20"></div>
                 </div>
             </Swiper>
         </div>

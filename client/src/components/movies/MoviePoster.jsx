@@ -7,7 +7,7 @@ const MovieDetails = () => {
   useEffect(() => {
     const fetchMovieImages = async () => {
       try {
-        const res = await axios.get('http://localhost:4000/home/movies');
+        const res = await axios.get('http://localhost:4000/netflixMovies');
         console.log(res.data);
         setMovieImages(res.data.posters);
       } catch (err) {
@@ -19,7 +19,6 @@ const MovieDetails = () => {
 
   return (
     <div>
-      <h2 className="text-white font-serif">Home</h2>
       <ul>
         {movieImages.length > 0 && (
           <li>

@@ -3,6 +3,7 @@ import NavbarHome from '../components/Navbar';
 import '../styles/Profile.css';
 import Carousel from '../components/home/Carousel'
 import Tabs from '../components/home/Tabs'
+import MovieInfo from '../components/movies/MovieInfo';
 
 const Home = (props) => {
 
@@ -10,10 +11,7 @@ const Home = (props) => {
     return (
         <div className='bg-slate-800'>
             <NavbarHome />
-            <Carousel />
-            <div className='mb-10 mt-10 bg-slate-900'>
-                <Tabs />
-            </div>
+            <MovieInfo />
         </div>
     );
 }

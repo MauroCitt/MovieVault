@@ -1,7 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
+import Netflix from "./Netflix";
 
-export function Tabs() {
+export function Tabs({ onLoad }) {
   const [activeTab, setactiveTab] = useState(0);
   const seleccionar = (index) => {
     setactiveTab(index);
@@ -13,7 +14,7 @@ export function Tabs() {
           className={activeTab == 0 ? "active" : ""}
           onClick={() => seleccionar(0)}
         >
-            <p className="mt-2 p-0">Netflix</p>
+            Netflix
         </li>
         <li
           className={activeTab == 1 ? "active" : ""}
@@ -25,14 +26,14 @@ export function Tabs() {
           className={activeTab == 2 ? "active" : ""}
           onClick={() => seleccionar(2)}
         >
-           What we like
+          What's new?
         </li>
         <span className="indicador"></span>
       </ul>
       <div className="tab-content">
-        {activeTab === 0 && <h1>Tab 1</h1>}
-        {activeTab === 1 && <h1>Tab 2</h1>}
-        {activeTab === 2 && <h1>Tab 3</h1>}
+        <div style={{ display: activeTab === 0 ? 'block' : 'none' }}><Netflix /></div>
+        <h1 style={{ display: activeTab === 1 ? 'block' : 'none' }}>Tab 2</h1>
+        <h1 style={{ display: activeTab === 2 ? 'block' : 'none' }}>Tab 3</h1>
       </div>
     </Container>
   );
@@ -45,9 +46,8 @@ position: relative;
   flex-direction: column;
   width: 100%;
   height: 100%;
-  padding:20px;
-  color:#0f0f0f;
-  margin-top: 100px;
+  padding: 20px;
+  margin-top: 30px;
   .tabs{
     list-style: none;
     display: flex;
@@ -59,6 +59,7 @@ position: relative;
     top: 0;
     left: 0;
     color: #fff;
+    padding-left: 0;
     
     li{
       display: flex;

@@ -1,12 +1,12 @@
 const { Router } = require('express');
 
-const { apiConnectionController } = require('../controllers/apiConnectionController.js');
+const apiConnectionController = require('../controllers/apiConnectionController.js');
 const genreConnectionController = require('../controllers/genreConnectionController.js');
 const crewApiController = require('../controllers/crewApiController.js');
 const providersApiController = require('../controllers/providersApiController.js');
 const auth = require('../controllers/usersAuthController.js');
 const poster = require ('../controllers/moviePosterController.js');
-const getNetflix = require('../controllers/getMoviesController.js');
+const getMovies = require('../controllers/getMoviesController.js');
 
 const router = Router();
 
@@ -28,7 +28,8 @@ router.get('/crew', crewApiController.getJsonFile);
 router.get('/providers', providersApiController.getJsonFile)
 router.get('/home/movies', poster.getJsonFile);
 
-router.get('/netflixMovies', getNetflix.getTopMovies)
+router.get('/getInfo', getMovies.getMovieInfo);
+router.get('/netflixMovies', getMovies.getTopMovies)
 
 
 module.exports = router;
