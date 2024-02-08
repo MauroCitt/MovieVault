@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Netflix from "./Netflix";
+import Discover from "./Discover";
 
 export function Tabs({ onLoad }) {
   const [activeTab, setactiveTab] = useState(0);
@@ -32,7 +33,7 @@ export function Tabs({ onLoad }) {
       </ul>
       <div className="tab-content">
         <div style={{ display: activeTab === 0 ? 'block' : 'none' }}><Netflix /></div>
-        <h1 style={{ display: activeTab === 1 ? 'block' : 'none' }}>Tab 2</h1>
+        <div style={{ display: activeTab === 1 ? 'block' : 'none' }}><Discover /></div>
         <h1 style={{ display: activeTab === 2 ? 'block' : 'none' }}>Tab 3</h1>
       </div>
     </Container>

@@ -30,6 +30,8 @@ router.get('/home/movies', poster.getJsonFile);
 
 router.get('/getInfo', getMovies.getMovieInfo);
 router.get('/netflixMovies', getMovies.getTopMovies)
+router.get('/discover', getMovies.getDiscoverMovies);
+router.get('/getReviews', getMovies.getReviews);
 
 
 module.exports = router;

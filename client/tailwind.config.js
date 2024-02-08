@@ -9,6 +9,7 @@ module.exports = {
       fontFamily: {
         'inter': ['Inter', 'sans-serif'],
         'saira': ['Saira-Condensed', 'sans-serif'],
+        'bebas': ['Bebas Neue', 'sans-serif'],
       },
     },
   },

@@ -12,13 +12,11 @@ const Platforms = ["Netflix", "HBO", "Disney+", "Amazon Prime Video", "Filmin"];
 const Profile = (props) => {
 
     const [username, setUsername] = useState('');
-    const [image, setImage] = useState('profile.jpg');
     let email = props.email;
-    let profileImage = localStorage.getItem('image', image);
 
     useEffect(() => {
-        localStorage.setItem('image', image);
-    }, [image]);
+        localStorage.setItem('image', props.image);
+    }, [props.image]);
 
     useEffect(() => {
         const fetchUsername = async () => {
@@ -52,11 +50,10 @@ const Profile = (props) => {
     }
 
     const [multiSelectVisible, setMultiSelectVisible] = useState(false);
-    console.log(profileImage);
+    console.log(props.profileImage);
 
     return (
         <div className="fondo bg-slate-800">
-            <NavbarHome logout={props.logout} profileImage={profileImage} user={image}/>
             <div className="header">
                 <h1 class="mb-4 mt-10 text-3xl font-extrabold text-white dark:text-white md:text-5xl lg:text-6xl">
                     My Movie&nbsp;
@@ -71,7 +68,7 @@ const Profile = (props) => {
                     <div className="mb-3">
                         <p class="text-2xl font-bold text-white dark:text-white">{username}</p>
                     </div>
-                    <ProfilePhoto email={email} image={image} setImage={setImage} />
+                    <ProfilePhoto email={email} image={props.image} setImage={props.setImage} />
                 </div>
                 <form onSubmit={props.passwordSubmit}>
                     <div className="relative max-h-screen w-full">

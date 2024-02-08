@@ -4,7 +4,7 @@ import { ColorRing } from 'react-loader-spinner';
 import MovieInfo from '../movies/MovieInfo';
 import { useNavigate } from 'react-router-dom';
 
-const MovieDetails = () => {
+const Discover = () => {
   const [movieImages, setMovieImages] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [isLoading, setIsLoading] = useState(true);      
@@ -46,7 +46,7 @@ const MovieDetails = () => {
   useEffect(() => {
     const fetchMovieImages = async () => {
       try {
-        const res = await axios.get('http://localhost:4000/netflixMovies');
+        const res = await axios.get('http://localhost:4000/discover');
         console.log(res.data);
         setMovieImages(res.data);
         setIsLoading(false);
@@ -91,4 +91,4 @@ const MovieDetails = () => {
   );
 };
 
-export default MovieDetails;
+export default Discover;

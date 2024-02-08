@@ -8,8 +8,7 @@ const Home = (props) => {
 
 
     return (
-        <div className='bg-slate-800'>
-            <NavbarHome />
+        <div className='bg-slate-800 h-full'>
             <Carousel />
             <div className='mb-10 mt-10 bg-slate-900'>
                 <Tabs />

@@ -14,6 +14,7 @@ import Info from './views/Info.jsx';
 import RecoverPass from './components/passRecovery/RecoverPass.jsx';
 import OTPInput from './components/passRecovery/OTPInput.jsx';
 import RecoverPassForm from './components/passRecovery/RecoverPassForm.jsx';
+import Navbar from './components/Navbar.jsx';
 
 const URL = 'http://localhost:4000/';
 
@@ -28,6 +29,9 @@ function App() {
   const [signInMode, setSignInMode] = useState(true);
   const [passwordEditable, setPasswordEditable] = useState(true);
   const [validOTP, setValidOTP] = useState(false);
+  const [image, setImage] = useState('profile.jpg');
+
+
 
   const toggleMode = () => {
     setSignInMode((prevMode) => !prevMode);
@@ -35,6 +39,8 @@ function App() {
 
   const email = JSON.parse(localStorage.getItem('email'));
   const OTP = JSON.parse(localStorage.getItem('OTP'));
+  let profileImage = localStorage.getItem('image', image);
+
 
   // ************** Sign in **************
   const signIn = async (email, magicLink, signInMode, userPass) => {
@@ -211,6 +217,7 @@ function App() {
     <div className="App">
       <Toaster position="bottom-right" />
       <Router>
+      <Navbar logout={logout} profileImage={profileImage} image={image} loggedIn={loggedIn}/>
         <Routes>
           <Route
             path="/login"
@@ -248,6 +255,9 @@ function App() {
                   passwordEditable={passwordEditable}
                   user={user}
                   enterUser={enterUser}
+                  image={image}
+                  setImage={setImage}
+                  profileImage={profileImage}
                 />
               </ProtectedRoute>
 
