@@ -32,6 +32,8 @@ router.get('/getInfo', getMovies.getMovieInfo);
 router.get('/netflixMovies', getMovies.getTopMovies)
 router.get('/discover', getMovies.getDiscoverMovies);
 router.get('/getReviews', getMovies.getReviews);
+router.get('/newMovies', getMovies.getNewMovies);
+router.get('/getMomentMovie', getMovies.getMomentMovie);
 
 
 module.exports = router;

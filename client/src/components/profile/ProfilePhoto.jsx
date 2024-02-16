@@ -9,7 +9,7 @@ const ImgUpload = ({ onChange, src, onClick }) => (
                 htmlFor="photo-upload"
                 src={src}
                 alt="Uploaded"
-                className="object-fill w-80 h-80 rounded-full hover-effect"
+                className="object-fill w-80 h-80 hover-effect border border-black rounded-full"
                 id='photoUpload'
             />
         </div>

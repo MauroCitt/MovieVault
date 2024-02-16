@@ -7,8 +7,9 @@ import { useNavigate } from 'react-router-dom';
 const MovieDetails = () => {
   const [movieImages, setMovieImages] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);      
-  let movieImagePhoto 
+  const [isLoading, setIsLoading] = useState(true);
+
+  let movieImagePhoto
 
   const navigate = useNavigate();
   const [showMovieInfo, setShowMovieInfo] = useState(false);
@@ -23,7 +24,6 @@ const MovieDetails = () => {
       movieImagePhoto = movieImage.imagePath;
     }
 
-  
     if (movieInfo) {
       navigate(`/movieInfo/${movieInfo.movieInfo.titulo}`, { state: { movie: movieInfo, moviePath: movieImagePhoto } });
       setSelectedMovie(movie);

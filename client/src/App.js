@@ -15,6 +15,8 @@ import RecoverPass from './components/passRecovery/RecoverPass.jsx';
 import OTPInput from './components/passRecovery/OTPInput.jsx';
 import RecoverPassForm from './components/passRecovery/RecoverPassForm.jsx';
 import Navbar from './components/Navbar.jsx';
+import Footer from './components/Footer.jsx';
+import Busqueda from './components/home/Busqueda.jsx';
 
 const URL = 'http://localhost:4000/';
 
@@ -287,8 +289,11 @@ function App() {
           <Route path='/passwordReset' element={<RecoverPassForm userPass={userPass} enterPassword={enterPassword} userPassConfirmation={userPassConfirmation} enterPasswordConfirmation={enterPasswordConfirmation} passwordResetSending={passwordResetSending} />} />
           <Route path="/" element={loggedIn ? <Navigate to="/home" /> : <Navigate to="/login" />} />
           <Route path="/movieInfo/:titulo" element={<Info />} />
+          <Route path="*" element={<Navigate to="/home" />} />
+          <Route path="/genres" element={<Busqueda />} />
         </Routes>
       </Router>
+      <Footer />
     </div>
   );
 }

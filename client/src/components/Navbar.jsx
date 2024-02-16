@@ -43,7 +43,7 @@ function NavbarHome({ user, loggedIn }) {
                         <div class="hidden sm:flex sm:items-center lg:items-center absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
                             <div class="flex flex-row space-x-4 justify-center items-center">
                                 <Link to="/home" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm sm:text-base lg:text-lg font-medium no-underline font-saira">Home</Link>
-                                <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm sm:text-base lg:text-lg font-medium no-underline font-saira">Genres</a>
+                                <Link to="/genres" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm sm:text-base lg:text-lg font-medium no-underline font-saira">Genres</Link>
                                 <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm sm:text-base lg:text-lg font-medium no-underline font-saira">Your watchlist</a>
                             </div>
                         </div>

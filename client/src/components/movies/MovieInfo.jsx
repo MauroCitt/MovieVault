@@ -8,8 +8,14 @@ import primeVideo from '../../images/PrimeVideo.png';
 import hboMax from '../../images/hbo.png';
 import movistar from '../../images/movistar.png';
 import tivify from '../../images/tivify.png';
+import DisneyPlus from '../../images/DisneyPlus.jpg';
+import filmin from '../../images/filmin.png';
+import fubo from '../../images/descarga.png';
+import apple from '../../images/apple.png';
+import sky from '../../images/sky.jpg';
+import acontra from '../../images/acontra.png';
 
-const MovieInfo = (props) => {
+const MovieInfo = () => {
     const { state } = useLocation();
     const [movieReviews, setMovieReviews] = useState([]);
     const [expandedReview, setExpandedReview] = useState(null);
@@ -27,12 +33,21 @@ const MovieInfo = (props) => {
     const a = movie.movie.movieInfo.vote_average
     const b = a.toFixed(1);
 
+    let fecha = movie.movie.movieInfo.release_date;
+    let year = fecha.substring(0, 4);
+
     const providerLogos = {
         'Netflix': netflixLogo,
         'Amazon Prime Video': primeVideo,
         'HBO Max': hboMax,
         'Movistar Plus': movistar,
-        'Tivify': tivify
+        'Tivify': tivify,
+        'Disney Plus': DisneyPlus,
+        'Filmin': filmin,
+        'Fubo TV': fubo,
+        'Apple TV Plus': apple,
+        'SkyShowtime': sky,
+        'Acontra Plus': acontra
     }
 
     useEffect(() => {
@@ -47,6 +62,17 @@ const MovieInfo = (props) => {
         };
         fetchMovieImages();
     }, []);
+
+    let title = movie.movie.movieInfo.titulo;
+    let fontSize = 'text-5xl';
+
+    if (title.length > 20) {
+        fontSize = 'text-xl';
+    } else if (title.length > 30) {
+        fontSize = 'text-2xl';
+    } else if (title.length > 40) {
+        fontSize = 'text-xl'
+    }
 
     return (
         <div>
@@ -65,8 +91,8 @@ const MovieInfo = (props) => {
                 </div>
                 <div className='flex flex-col ml-auto mr-auto mt-[-120px] relative'>
                     <img src={cartelera} alt='star' className='' style={{ width: '450px', height: '350px' }} />
-                    <h1 className='font-bebas text-5xl text-black absolute top-52 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
-                        {movie.movie.movieInfo.titulo}
+                    <h1 className={`font-bebas ${fontSize} text-black absolute top-52 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-hidden whitespace-nowrap text-overflow`}>
+                        {title}
                     </h1>
 
                     <div className=''>
@@ -81,11 +107,15 @@ const MovieInfo = (props) => {
                                     <dd key={index} class="text-lg font-semibold">{item}</dd>
                                 ))}
                             </div>
-                            <div class="flex flex-col pt-3">
+                            <div class="flex flex-col py-3">
                                 <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">Genre/s</dt>
                                 {movie.movie.genresName.map((item, index) => (
                                     <dd key={index} class="text-lg font-semibold">{item}</dd>
                                 ))}
+                            </div>
+                            <div class="flex flex-col pb-3">
+                                <dt class="mb-1 text-gray-500 md:text-lg dark:text-gray-400">Year</dt>
+                                <dd class="text-lg font-semibold">{year}</dd>
                             </div>
                         </dl>
                     </div>
@@ -100,7 +130,7 @@ const MovieInfo = (props) => {
                         if (provider == "Netflix basic with Ads") {
                             return;
                         }
-                        return <img key={index} src={logo} alt={provider} style={{ height: 55, marginLeft: 0, marginTop: 6 }} />;
+                        return <img key={index} src={logo} alt={provider} style={{ height: 55, marginLeft: 20, marginTop: 6 }} />;
                     })}
                 </div>
             </div>

@@ -3,6 +3,26 @@
   "results": [
     {
       "adult": false,
+      "backdrop_path": "/gHz4ZQytRs8YGrqFMwB3Vrr8pig.jpg",
+      "genre_ids": [
+        18,
+        10749,
+        878
+      ],
+      "id": 274870,
+      "original_language": "en",
+      "original_title": "Passengers",
+      "overview": "A spacecraft traveling to a distant colony planet and transporting thousands of people has a malfunction in its sleep chambers. As a result, two passengers are awakened 90 years early.",
+      "popularity": 31.416,
+      "poster_path": "/jK9S6HANSf2no64v1x1HxfcpmcA.jpg",
+      "release_date": "2016-12-21",
+      "title": "Passengers",
+      "video": false,
+      "vote_average": 6.939,
+      "vote_count": 12682
+    },
+    {
+      "adult": false,
       "backdrop_path": "/aFTYFqrWp4RS46Twm87l5e0ItYb.jpg",
       "genre_ids": [
         28,
@@ -13,13 +33,13 @@
       "original_language": "en",
       "original_title": "Iron Man 3",
       "overview": "When Tony Stark's world is torn apart by a formidable terrorist called the Mandarin, he starts an odyssey of rebuilding and retribution.",
-      "popularity": 88.837,
+      "popularity": 73.435,
       "poster_path": "/qhPtAc1TKbMPqNvcdXSOn9Bn7hZ.jpg",
       "release_date": "2013-04-18",
       "title": "Iron Man 3",
       "video": false,
       "vote_average": 6.927,
-      "vote_count": 21402
+      "vote_count": 21433
     },
     {
       "adult": false,
@@ -33,13 +53,13 @@
       "original_language": "en",
       "original_title": "Divergent",
       "overview": "In a world divided into factions based on personality types, Tris learns that she's been classified as Divergent and won't fit in. When she discovers a plot to destroy Divergents, Tris and the mysterious Four must find out what makes Divergents dangerous before it's too late.",
-      "popularity": 41.561,
+      "popularity": 39.751,
       "poster_path": "/aNh4Q3iuPKDMPi2SL7GgOpiLukX.jpg",
       "release_date": "2014-03-14",
       "title": "Divergent",
       "video": false,
       "vote_average": 6.922,
-      "vote_count": 12324
+      "vote_count": 12338
     },
     {
       "adult": false,
@@ -53,13 +73,13 @@
       "original_language": "en",
       "original_title": "Despicable Me 2",
       "overview": "Gru is recruited by the Anti-Villain League to help deal with a powerful new super criminal.",
-      "popularity": 134.237,
+      "popularity": 110.586,
       "poster_path": "/5Fh4NdoEnCjCK9wLjdJ9DJNFl2b.jpg",
       "release_date": "2013-06-26",
       "title": "Despicable Me 2",
       "video": false,
-      "vote_average": 6.918,
-      "vote_count": 10721
+      "vote_average": 6.919,
+      "vote_count": 10743
     },
     {
       "adult": false,
@@ -72,14 +92,14 @@
       "id": 297802,
       "original_language": "en",
       "original_title": "Aquaman",
-      "overview": "Once home to the most advanced civilization on Earth, Atlantis is now an underwater kingdom ruled by the power-hungry King Orm. With a vast army at his disposal, Orm plans to conquer the remaining oceanic people and then the surface world. Standing in his way is Arthur Curry, Orm's half-human, half-Atlantean brother and true heir to the throne.",
-      "popularity": 243.021,
+      "overview": "Half-human, half-Atlantean Arthur Curry is taken on the journey of his lifetime to discover if he is worth of being a king.",
+      "popularity": 169.023,
       "poster_path": "/zdw7Wf97vsQ0YnGomxDqfcEdUjX.jpg",
       "release_date": "2018-12-07",
       "title": "Aquaman",
       "video": false,
-      "vote_average": 6.902,
-      "vote_count": 13394
+      "vote_average": 6.9,
+      "vote_count": 13442
     },
     {
       "adult": false,
@@ -94,13 +114,13 @@
       "original_language": "en",
       "original_title": "Madagascar",
       "overview": "Alex the lion is the king of the urban jungle, the main attraction at New York's Central Park Zoo. He and his best friends—Marty the zebra, Melman the giraffe and Gloria the hippo—have spent their whole lives in blissful captivity before an admiring public and with regular meals provided for them. Not content to leave well enough alone, Marty lets his curiosity get the better of him and makes his escape—with the help of some prodigious penguins—to explore the world.",
-      "popularity": 74.124,
+      "popularity": 73.258,
       "poster_path": "/zMpJY5CJKUufG9OTw0In4eAFqPX.jpg",
       "release_date": "2005-05-25",
       "title": "Madagascar",
       "video": false,
-      "vote_average": 6.899,
-      "vote_count": 10325
+      "vote_average": 6.9,
+      "vote_count": 10348
     },
     {
       "adult": false,
@@ -114,13 +134,13 @@
       "original_language": "en",
       "original_title": "The Hunger Games: Mockingjay - Part 2",
       "overview": "With the nation of Panem in a full scale war, Katniss confronts President Snow in the final showdown. Teamed with a group of her closest friends – including Gale, Finnick, and Peeta – Katniss goes off on a mission with the unit from District 13 as they risk their lives to stage an assassination attempt on President Snow who has become increasingly obsessed with destroying her. The mortal traps, enemies, and moral choices that await Katniss will challenge her more than any arena she faced in The Hunger Games.",
-      "popularity": 67.289,
+      "popularity": 61.54,
       "poster_path": "/lImKHDfExAulp16grYm8zD5eONE.jpg",
       "release_date": "2015-11-18",
       "title": "The Hunger Games: Mockingjay - Part 2",
       "video": false,
       "vote_average": 6.895,
-      "vote_count": 11951
+      "vote_count": 11974
     },
     {
       "adult": false,
@@ -134,33 +154,32 @@
       "original_language": "en",
       "original_title": "Pacific Rim",
       "overview": "Using massive piloted robots to combat the alien threat, earth's survivors take the fight to the invading alien force lurking in the depths of the Pacific Ocean. Nearly defenseless in the face of the relentless enemy, the forces of mankind have no choice but to turn to two unlikely heroes who now stand as earth's final hope against the mounting apocalypse.",
-      "popularity": 84.813,
+      "popularity": 56.625,
       "poster_path": "/8wo4eN8dWKaKlxhSvBz19uvj8gA.jpg",
       "release_date": "2013-07-11",
       "title": "Pacific Rim",
       "video": false,
       "vote_average": 6.884,
-      "vote_count": 11821
+      "vote_count": 11842
     },
     {
       "adult": false,
       "backdrop_path": "/qrtRKRzoNkf5vemO9tJ2Y4DrHxQ.jpg",
       "genre_ids": [
         14,
-        12,
-        10751
+        12
       ],
       "id": 338952,
       "original_language": "en",
       "original_title": "Fantastic Beasts: The Crimes of Grindelwald",
       "overview": "Gellert Grindelwald has escaped imprisonment and has begun gathering followers to his cause—elevating wizards above all non-magical beings. The only one capable of putting a stop to him is the wizard he once called his closest friend, Albus Dumbledore. However, Dumbledore will need to seek help from the wizard who had thwarted Grindelwald once before, his former student Newt Scamander, who agrees to help, unaware of the dangers that lie ahead. Lines are drawn as love and loyalty are tested, even among the truest friends and family, in an increasingly divided wizarding world.",
-      "popularity": 48.581,
+      "popularity": 51.056,
       "poster_path": "/fMMrl8fD9gRCFJvsx0SuFwkEOop.jpg",
       "release_date": "2018-11-14",
       "title": "Fantastic Beasts: The Crimes of Grindelwald",
       "video": false,
-      "vote_average": 6.867,
-      "vote_count": 10402
+      "vote_average": 6.866,
+      "vote_count": 10421
     },
     {
       "adult": false,
@@ -174,13 +193,13 @@
       "original_language": "en",
       "original_title": "Iron Man 2",
       "overview": "With the world now aware of his dual life as the armored superhero Iron Man, billionaire inventor Tony Stark faces pressure from the government, the press and the public to share his technology with the military. Unwilling to let go of his invention, Stark, with Pepper Potts and James 'Rhodey' Rhodes at his side, must forge new alliances – and confront powerful enemies.",
-      "popularity": 101.331,
+      "popularity": 91.69,
       "poster_path": "/6WBeq4fCfn7AN0o21W9qNcRF2l9.jpg",
       "release_date": "2010-04-28",
       "title": "Iron Man 2",
       "video": false,
-      "vote_average": 6.837,
-      "vote_count": 20132
+      "vote_average": 6.838,
+      "vote_count": 20166
     },
     {
       "adult": false,
@@ -194,13 +213,13 @@
       "original_language": "en",
       "original_title": "Captain Marvel",
       "overview": "The story follows Carol Danvers as she becomes one of the universe’s most powerful heroes when Earth is caught in the middle of a galactic war between two alien races. Set in the 1990s, Captain Marvel is an all-new adventure from a previously unseen period in the history of the Marvel Cinematic Universe.",
-      "popularity": 84.163,
+      "popularity": 83.353,
       "poster_path": "/AtsgWhDnHTq68L0lLsUrCnM7TjG.jpg",
       "release_date": "2019-03-06",
       "title": "Captain Marvel",
       "video": false,
-      "vote_average": 6.832,
-      "vote_count": 15007
+      "vote_average": 6.83,
+      "vote_count": 15047
     },
     {
       "adult": false,
@@ -215,13 +234,13 @@
       "original_language": "en",
       "original_title": "Now You See Me 2",
       "overview": "One year after outwitting the FBI and winning the public’s adulation with their mind-bending spectacles, the Four Horsemen resurface only to find themselves face to face with a new enemy who enlists them to pull off their most dangerous heist yet.",
-      "popularity": 44.254,
+      "popularity": 44.035,
       "poster_path": "/A81kDB6a1K86YLlcOtZB27jriJh.jpg",
       "release_date": "2016-06-02",
       "title": "Now You See Me 2",
       "video": false,
-      "vote_average": 6.829,
-      "vote_count": 10343
+      "vote_average": 6.828,
+      "vote_count": 10355
     },
     {
       "adult": false,
@@ -235,13 +254,13 @@
       "original_language": "en",
       "original_title": "Jumanji: Welcome to the Jungle",
       "overview": "Four teenagers in detention discover an old video game console with a game they’ve never heard of. When they decide to play, they are immediately sucked into the jungle world of Jumanji in the bodies of their avatars. They’ll have to complete the adventure of their lives filled with fun, thrills and danger or be stuck in the game forever!",
-      "popularity": 41.993,
+      "popularity": 41.121,
       "poster_path": "/pSgXKPU5h6U89ipF7HBYajvYt7j.jpg",
       "release_date": "2017-12-09",
       "title": "Jumanji: Welcome to the Jungle",
       "video": false,
-      "vote_average": 6.826,
-      "vote_count": 13055
+      "vote_average": 6.8,
+      "vote_count": 13077
     },
     {
       "adult": false,
@@ -254,13 +273,13 @@
       "original_language": "en",
       "original_title": "Venom",
       "overview": "Investigative journalist Eddie Brock attempts a comeback following a scandal, but accidentally becomes the host of Venom, a violent, super powerful alien symbiote. Soon, he must rely on his newfound powers to protect the world from a shadowy organization looking for a symbiote of their own.",
-      "popularity": 71.773,
+      "popularity": 71.151,
       "poster_path": "/2uNW4WbgBXL25BAbXGLnLqX71Sw.jpg",
       "release_date": "2018-09-28",
       "title": "Venom",
       "video": false,
       "vote_average": 6.825,
-      "vote_count": 15037
+      "vote_count": 15079
     },
     {
       "adult": false,
@@ -274,17 +293,17 @@
       "original_language": "en",
       "original_title": "Fast & Furious 6",
       "overview": "Hobbs has Dominic and Brian reassemble their crew to take down a team of mercenaries; Dominic unexpectedly gets sidetracked with facing his presumed deceased girlfriend, Letty.",
-      "popularity": 7.168,
+      "popularity": 8.131,
       "poster_path": "/3EXOOkhSmJQ9DisNmIjZ8Xi633I.jpg",
       "release_date": "2013-05-21",
       "title": "Fast & Furious 6",
       "video": false,
-      "vote_average": 6.816,
-      "vote_count": 10175
+      "vote_average": 6.815,
+      "vote_count": 10190
     },
     {
       "adult": false,
-      "backdrop_path": "/epVMXf10WqFkONzKR8V76Ypj5Y3.jpg",
+      "backdrop_path": "/5Iw7zQTHVRBOYpA0V6z0yypOPZh.jpg",
       "genre_ids": [
         12,
         28,
@@ -294,13 +313,13 @@
       "original_language": "en",
       "original_title": "Star Wars: The Last Jedi",
       "overview": "Rey develops her newly discovered abilities with the guidance of Luke Skywalker, who is unsettled by the strength of her powers. Meanwhile, the Resistance prepares to do battle with the First Order.",
-      "popularity": 66.934,
+      "popularity": 67.011,
       "poster_path": "/kOVEVeg59E0wsnXmF9nrh6OmWII.jpg",
       "release_date": "2017-12-13",
       "title": "Star Wars: The Last Jedi",
       "video": false,
-      "vote_average": 6.812,
-      "vote_count": 14622
+      "vote_average": 6.81,
+      "vote_count": 14649
     },
     {
       "adult": false,
@@ -316,13 +335,13 @@
       "original_language": "en",
       "original_title": "World War Z",
       "overview": "Life for former United Nations investigator Gerry Lane and his family seems content. Suddenly, the world is plagued by a mysterious infection turning whole human populations into rampaging mindless zombies. After barely escaping the chaos, Lane is persuaded to go on a mission to investigate this disease. What follows is a perilous trek around the world where Lane must brave horrific dangers and long odds to find answers before human civilization falls.",
-      "popularity": 69.785,
+      "popularity": 73.848,
       "poster_path": "/1SWBSYJsnyhdNRfLI1T6RsCxAQ4.jpg",
       "release_date": "2013-06-20",
       "title": "World War Z",
       "video": false,
       "vote_average": 6.811,
-      "vote_count": 14705
+      "vote_count": 14728
     },
     {
       "adult": false,
@@ -336,13 +355,13 @@
       "original_language": "en",
       "original_title": "The Hunger Games: Mockingjay - Part 1",
       "overview": "Katniss Everdeen reluctantly becomes the symbol of a mass rebellion against the autocratic Capitol.",
-      "popularity": 100.923,
+      "popularity": 99.924,
       "poster_path": "/4FAA18ZIja70d1Tu5hr5cj2q1sB.jpg",
       "release_date": "2014-11-19",
       "title": "The Hunger Games: Mockingjay - Part 1",
       "video": false,
       "vote_average": 6.806,
-      "vote_count": 15167
+      "vote_count": 15193
     },
     {
       "adult": false,
@@ -356,13 +375,13 @@
       "original_language": "en",
       "original_title": "Transformers",
       "overview": "Teenage Sam Witwicky becomes involved in the ancient struggle between two extraterrestrial factions of transforming robots – the heroic Autobots and the evil Decepticons. Sam holds the clue to unimaginable power and the Decepticons will stop at nothing to retrieve it.",
-      "popularity": 19.711,
+      "popularity": 17.637,
       "poster_path": "/lkZ9gqCEjzX85lKR6Jjd1uGAXNp.jpg",
       "release_date": "2007-06-27",
       "title": "Transformers",
       "video": false,
-      "vote_average": 6.791,
-      "vote_count": 10703
+      "vote_average": 6.792,
+      "vote_count": 10724
     },
     {
       "adult": false,
@@ -376,34 +395,15 @@
       "original_language": "en",
       "original_title": "Thor",
       "overview": "Against his father Odin's will, The Mighty Thor - a powerful but arrogant warrior god - recklessly reignites an ancient war. Thor is cast down to Earth and forced to live among humans as punishment. Once here, Thor learns what it takes to be a true hero when the most dangerous villain of his world sends the darkest forces of Asgard to invade Earth.",
-      "popularity": 73.785,
+      "popularity": 65.122,
       "poster_path": "/prSfAi1xGrhLQNxVSUFh61xQ4Qy.jpg",
       "release_date": "2011-04-21",
       "title": "Thor",
       "video": false,
-      "vote_average": 6.767,
-      "vote_count": 20352
-    },
-    {
-      "adult": false,
-      "backdrop_path": "/8bQbejOvAKe78RXxpkfM04n0K18.jpg",
-      "genre_ids": [
-        14,
-        35
-      ],
-      "id": 310,
-      "original_language": "en",
-      "original_title": "Bruce Almighty",
-      "overview": "Bruce Nolan toils as a 'human interest' television reporter in Buffalo, N.Y., but despite his high ratings and the love of his beautiful girlfriend, Bruce remains unfulfilled. At the end of the worst day in his life, he angrily ridicules God—and the Almighty responds, endowing Bruce with all of His divine powers.",
-      "popularity": 48.141,
-      "poster_path": "/f0QqG14SZYYZcV4VWykVc5w13dz.jpg",
-      "release_date": "2003-05-23",
-      "title": "Bruce Almighty",
-      "video": false,
-      "vote_average": 6.71,
-      "vote_count": 10221
+      "vote_average": 6.766,
+      "vote_count": 20389
     }
   ],
   "total_pages": 15,
-  "total_results": 287
+  "total_results": 288
 }

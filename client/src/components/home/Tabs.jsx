@@ -2,9 +2,16 @@ import { useState } from "react";
 import styled from "styled-components";
 import Netflix from "./Netflix";
 import Discover from "./Discover";
+import New from "./New";
 
 export function Tabs({ onLoad }) {
   const [activeTab, setactiveTab] = useState(0);
+  const [isClicked, setIsClicked] = useState(false);
+
+  const handleButtonClick = () => {
+    setIsClicked(true);
+  }
+
   const seleccionar = (index) => {
     setactiveTab(index);
   };
@@ -34,9 +41,18 @@ export function Tabs({ onLoad }) {
       <div className="tab-content">
         <div style={{ display: activeTab === 0 ? 'block' : 'none' }}><Netflix /></div>
         <div style={{ display: activeTab === 1 ? 'block' : 'none' }}><Discover /></div>
-        <h1 style={{ display: activeTab === 2 ? 'block' : 'none' }}>Tab 3</h1>
+        <div style={{ display: activeTab === 2 ? 'block' : 'none' }}><New /></div>
       </div>
+      <button
+        className={`bg-purple-700 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded ${isClicked ? 'mt-2' : 'border-b-8 border-purple-900 hover:border-purple-700'}`}
+        onMouseDown={() => setIsClicked(true)}
+        onMouseUp={() => setIsClicked(false)}
+        onMouseLeave={() => setIsClicked(false)}
+      >
+        See more
+      </button>
     </Container>
+    
   );
 }
 const Container = styled.div`
