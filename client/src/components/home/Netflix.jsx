@@ -18,14 +18,13 @@ const MovieDetails = () => {
     let idMovie = movie.id;
 
     const movieInfo = await getFromDatabase(idMovie);
-    console.log(movieInfo);
     const movieImage = movieImages.find(m => m.id === idMovie);
     if (movieImage) {
       movieImagePhoto = movieImage.imagePath;
     }
 
     if (movieInfo) {
-      navigate(`/movieInfo/${movieInfo.movieInfo.titulo}`, { state: { movie: movieInfo, moviePath: movieImagePhoto } });
+      navigate(`/movieInfo/${movieInfo.movieInfo.title}`, { state: { movie: movieInfo, moviePath: movieImagePhoto } });
       setSelectedMovie(movie);
       setShowMovieInfo(true);
     } else {
@@ -36,7 +35,6 @@ const MovieDetails = () => {
   const getFromDatabase = async (idMovie) => {
     try {
       const res = await axios.get(`http://localhost:4000/getInfo?idMovie=${idMovie}`);
-      console.log(res.data);
       return res.data;
     } catch (error) {
       console.log(error);
@@ -47,7 +45,6 @@ const MovieDetails = () => {
     const fetchMovieImages = async () => {
       try {
         const res = await axios.get('http://localhost:4000/netflixMovies');
-        console.log(res.data);
         setMovieImages(res.data);
         setIsLoading(false);
       } catch (err) {

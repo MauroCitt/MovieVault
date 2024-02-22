@@ -16,7 +16,7 @@ const authorization =
     "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0ZWRlMGIwNDYxMWNkZjliZGQ2YjE5NDNkOWFjM2YyNCIsInN1YiI6IjY1NGI3NTYxZmQ0ZjgwMDBjN2ZlNWY4NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Wzm-mDwRjmcNv_Nx3XkJtZrxfcfkC805GvdNYUg5stc";
 
 const urlApiMovie =
-    "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_average.desc&vote_count.gte=10000";
+    "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_average.desc&vote_count.gte=2000";
 const urlApiPopular = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1";
 
 crewApiController.getJsonFile = async (req, res, next) => {
@@ -33,14 +33,14 @@ crewApiController.getJsonFile = async (req, res, next) => {
     let idsLista = [];
 
     try {
-        for (let index = 1; index < 14; index++) {
+        for (let index = 1; index < 101; index++) {
             let currentUrlApi = urlApiMovie.replace(/page=\d+/, `page=${index}`);
             let response = await fetch(currentUrlApi, options);
             let data = await response.json();
             const movies = data.results;
             idsLista.push(movies.map((movie) => movie.id));
 
-            if (index < 5) {
+            if (index < 20) {
                 let currentUrlApi = urlApiPopular.replace(/page=\d+/, `page=${index}`);
                 let response = await fetch(currentUrlApi, options);
                 let data = await response.json();
@@ -94,7 +94,11 @@ crewApiController.getJsonFile = async (req, res, next) => {
                 }
 
                 for (let index = 0; index < 3; index++) {
-                    mainActors.push(cast[index].name);
+                    if (cast[index]) {
+                        mainActors.push(cast[index].name);
+                    } else {
+                        break;
+                    }
                 }
 
                 await Movie.findOneAndUpdate(

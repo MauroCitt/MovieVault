@@ -1,22 +1,79 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { EffectCoverflow, Pagination, Navigation } from "swiper/modules"
+import { ColorRing } from 'react-loader-spinner';
+import { useNavigate } from 'react-router-dom';
+
 
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
+const Carousel = () => {
+    const [isLoading, setIsLoading] = useState(true);
+    const [movieImages, setMovieImages] = useState([]);
+    const [selectedMovie, setSelectedMovie] = useState(null);
+    const [showMovieInfo, setShowMovieInfo] = useState(false);
+    
+    const navigate = useNavigate();
+    let movieImagePhoto;
 
-import slide_image_1 from '../../images/shawshank.jpg'
-import slide_image_2 from '../../images/Sing_Street.jpg'
-import slide_image_3 from '../../images/theBoyAndTheHeron.jpg'
-import slide_image_4 from '../../images/TheNiceGuys.jpg'
-import slide_image_5 from '../../images/ThePerksOfBeingAWallflowe.jpg'
-import slide_image_6 from '../../images/climax.jpg'
-import slide_image_7 from '../../images/PerfectBlue.jpg'
 
-const carousel = () => {
+
+    useEffect(() => {
+        const fetchMovieImages = async () => {
+            try {
+                const res = await axios.get(`http://localhost:4000/getTwelveMovies`);
+                setMovieImages(res.data);
+                setIsLoading(false);
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        fetchMovieImages();
+    }, []);
+
+    if (isLoading) {
+        return <ColorRing
+            visible={true}
+            height="80"
+            width="80"
+            ariaLabel="color-ring-loading"
+            wrapperStyle={{}}
+            wrapperClass="color-ring-wrapper"
+            colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+        />;
+    }
+
+    const handleImageClick = async (movie) => {
+        let idMovie = movie.id;
+
+        const movieInfo = await getFromDatabase(idMovie);
+        const movieImage = movieImages.find(m => m.id === idMovie);
+        if (movieImage) {
+            movieImagePhoto = movieImage.imagePath;
+        }
+
+        if (movieInfo) {
+            navigate(`/movieInfo/${movieInfo.movieInfo.title}`, { state: { movie: movieInfo, moviePath: movieImagePhoto } });
+            setSelectedMovie(movie);
+            setShowMovieInfo(true);
+        } else {
+            console.error('Failed to fetch movie info');
+        }
+    };
+
+    const getFromDatabase = async (idMovie) => {
+        try {
+            const res = await axios.get(`http://localhost:4000/getInfo?idMovie=${idMovie}`);
+            return res.data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <div className="container bg-slate-800 mt-4">
             <h1 className="heading text-white font-saira-600">
@@ -29,8 +86,10 @@ const carousel = () => {
                 effect={'coverflow'}
                 grabCursor={false}
                 centeredSlide={true}
-                loop={true}
+                loop={movieImages.length > 3}
+                initialSlide={0}
                 slidesPerView={3}
+                slidesPerColumn={1}
                 coverflowEffect={
                     {
                         rotate: 0,
@@ -47,34 +106,11 @@ const carousel = () => {
                 modules={[EffectCoverflow, Pagination, Navigation]}
                 className="swiper_container"
             >
-
-                <SwiperSlide >
-                    <img src={slide_image_1} alt='' />
-                </SwiperSlide>
-
-                <SwiperSlide>
-                    <img src={slide_image_2} alt='' />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <img src={slide_image_3} alt='' />
-                </SwiperSlide>
-
-                <SwiperSlide>
-                    <img src={slide_image_4} alt='' />
-                </SwiperSlide>
-
-                <SwiperSlide>
-                    <img src={slide_image_5} alt='' />
-                </SwiperSlide>
-
-                <SwiperSlide>
-                    <img src={slide_image_6} alt='' />
-                </SwiperSlide>
-
-                <SwiperSlide>
-                    <img src={slide_image_7} alt='' />
-                </SwiperSlide>
-
+                {movieImages.map((movie, index) => (
+                    <SwiperSlide key={index}>
+                        <img src={`https://image.tmdb.org/t/p/w500/${movie.imagePath}`} alt='' onClick={()  => handleImageClick(movie)} style={{ cursor: 'pointer' }} />
+                    </SwiperSlide>
+                ))}
                 <div className="slider-controler">
                     <div className="swiper-button-prev slider-arrow mr-40">
                         <ion-icon name="arrow-back-outline"></ion-icon>
@@ -82,11 +118,11 @@ const carousel = () => {
                     <div className="swiper-button-next slider-arrow ml-40">
                         <ion-icon name="arrow-forward-outline"></ion-icon>
                     </div>
-                    <div className="swiper-pagination mt-20"></div>
+                    <div className="swiper-pagination"></div>
                 </div>
             </Swiper>
         </div>
     )
 }
 
-export default carousel
+export default Carousel

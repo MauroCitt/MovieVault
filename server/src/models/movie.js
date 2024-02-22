@@ -3,7 +3,7 @@ const { Schema, model } = require('mongoose');
 const movieSchema = new Schema
     ({
         id: {type: Number, required: true, unique: true},
-        titulo: {type: String},
+        title: {type: String},
         genero: [{type: Number, ref:'genre'}],
         director: {type: String, ref: 'director'},
         crew: [{type: String}],
@@ -12,7 +12,7 @@ const movieSchema = new Schema
         vote_count: {type: Number},
         vote_average: {type: Number},
         release_date: {type: String},
-        synopsis: {type: String},
+        overview: {type: String},
     });
 
     module.exports = model('movie', movieSchema);

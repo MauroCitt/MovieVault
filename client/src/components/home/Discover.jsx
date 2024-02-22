@@ -25,7 +25,7 @@ const Discover = () => {
 
   
     if (movieInfo) {
-      navigate(`/movieInfo/${movieInfo.movieInfo.titulo}`, { state: { movie: movieInfo, moviePath: movieImagePhoto } });
+      navigate(`/movieInfo/${movieInfo.movieInfo.title}`, { state: { movie: movieInfo, moviePath: movieImagePhoto } });
       setSelectedMovie(movie);
       setShowMovieInfo(true);
     } else {

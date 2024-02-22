@@ -19,6 +19,7 @@ const MovieInfo = () => {
     const { state } = useLocation();
     const [movieReviews, setMovieReviews] = useState([]);
     const [expandedReview, setExpandedReview] = useState(null);
+    const navigate = useNavigate();
 
     const handleExpandClick = (index) => {
         if (expandedReview === index) {
@@ -29,12 +30,15 @@ const MovieInfo = () => {
     };
 
     const movie = state;
+    console.log(movie);
     const idMovie = movie.movie.movieInfo.id;
     const a = movie.movie.movieInfo.vote_average
     const b = a.toFixed(1);
 
     let fecha = movie.movie.movieInfo.release_date;
     let year = fecha.substring(0, 4);
+
+    console.log(movie.movie.topThree);
 
     const providerLogos = {
         'Netflix': netflixLogo,
@@ -63,11 +67,29 @@ const MovieInfo = () => {
         fetchMovieImages();
     }, []);
 
-    let title = movie.movie.movieInfo.titulo;
+    const handleImageClick = async (id, imagePath) => {
+        const getFromDatabase = async () => {
+            console.log(id);
+            try {
+                const res = await axios.get(`http://localhost:4000/getInfo?idMovie=${id}`);
+                console.log(res.data);
+                return res.data;
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        const newMovie = await getFromDatabase();
+        console.log(newMovie);
+        navigate(`/movieInfo/${newMovie.movieInfo.title}`, { state: { movie: newMovie, moviePath: imagePath } });
+    };
+
+    let title = movie.movie.movieInfo.title;
+    console.log(title)
     let fontSize = 'text-5xl';
 
-    if (title.length > 20) {
-        fontSize = 'text-xl';
+    if (title.length > 25) {
+        fontSize = 'text-3xl';
     } else if (title.length > 30) {
         fontSize = 'text-2xl';
     } else if (title.length > 40) {
@@ -129,6 +151,8 @@ const MovieInfo = () => {
                         const logo = providerLogos[provider];
                         if (provider == "Netflix basic with Ads") {
                             return;
+                        } else if (provider == null || provider == undefined || provider == "" || !logo) {
+                            return;
                         }
                         return <img key={index} src={logo} alt={provider} style={{ height: 55, marginLeft: 20, marginTop: 6 }} />;
                     })}
@@ -137,7 +161,7 @@ const MovieInfo = () => {
             <div class="flex mt-10">
                 <div class="w-1/2 bg-slate-700 py-4 px-6 rounded-md">
                     <h2 class="text-white flex flex-1 justify-start ml-4">Synopsis</h2>
-                    <p class="mt-6 text-xl text-white dark:text-gray-400 font-inter text-justify">{movie.movie.movieInfo.synopsis}</p>
+                    <p class="mt-6 text-xl text-white dark:text-gray-400 font-inter text-justify">{movie.movie.movieInfo.overview}</p>
                 </div>
                 <div class="w-1/2 bg-slate-700 p-2 ml-4 rounded-md overflow-auto max-h-72">
                     <h2 class="text-white flex flex-1 justify-start ml-4 UNDERLINE">Reviews from TMDB</h2>
@@ -158,6 +182,24 @@ const MovieInfo = () => {
                             </li>
                         ))}
                     </ul>
+                </div>
+            </div>
+            <div className='bg-slate-900'>
+                <div className="flex flex-col justify-center mt-10 pt-6">
+                    <h2 className='text-white font-inter'> If you liked this, you'll love... </h2>
+                </div>
+                <div className="flex flex-row justify-center mt-4 pb-12">
+                    {movie.movie.topThreeImages.map((movie, index) => (
+                        <div key={index} className="flex flex-col items-center ml-4">
+                            <img
+                                src={`https://image.tmdb.org/t/p/w500/${movie.imagePath}`}
+                                alt={`Movie Poster`}
+                                className="transition ease-in-out duration-150 mr-20 shadow-lg"
+                                style={{ width: '300px', height: '420px' }}
+                                onClick={() => handleImageClick(movie.id, movie.imagePath)}
+                            />
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>

@@ -20,7 +20,7 @@ init();
 
 const apiConnectionController = {};
 
-const urlApi = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_average.desc&vote_count.gte=10000';
+const urlApi = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=120&sort_by=popularity.desc&vote_count.gte=2000';
 const urlApiPopular = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1";
 
 const apiKey = '4ede0b04611cdf9bdd6b1943d9ac3f24';
@@ -38,23 +38,21 @@ apiConnectionController.getJsonFile = async (req, res, next) => {
 
     try {
         let allData = [];
-        for (let index = 1; index < 14; index++) {
+        for (let index = 1; index < 101; index++) {
             let currentUrlApi = urlApi.replace(/page=\d+/, `page=${index}`);
             let response = await fetch(currentUrlApi, options);
             let data = await response.json();
             const movies = data.results;
             ids.push(movies.map((movie) => movie.id));
             await saveMoviesToMongoDB(movies);
-            fs.writeFileSync("peliculasOrdenadas" + index + ".json", JSON.stringify(data, null, 2));
 
-            if (index < 5) {
+            if (index < 20) {
                 let currentUrlApi = urlApiPopular.replace(/page=\d+/, `page=${index}`);
                 let response = await fetch(currentUrlApi, options);
                 let data = await response.json();
                 const movies = data.results;
                 ids.push(movies.map((movie) => movie.id));
                 await saveMoviesToMongoDB(movies);
-                fs.writeFileSync("peliculasPopulares" + index + ".json", JSON.stringify(data, null, 2));
 
                 console.log(index);
             
@@ -76,7 +74,7 @@ const saveMoviesToMongoDB = async (movies) => {
             if (!existingMovie) {
                 const movie = new Movie({
                     id: movieData.id,
-                    titulo: movieData.title,
+                    title: movieData.title,
                     genero: movieData.genre_ids,
                     director: movieData.director || null,
                     crew: movieData.crew,
@@ -84,7 +82,7 @@ const saveMoviesToMongoDB = async (movies) => {
                     vote_count: movieData.vote_count,
                     vote_average: movieData.vote_average,
                     release_date: movieData.release_date,
-                    synopsis: movieData.overview
+                    overview: movieData.overview
                 });
                 await movie.save();
             }

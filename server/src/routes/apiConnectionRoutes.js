@@ -7,6 +7,7 @@ const providersApiController = require('../controllers/providersApiController.js
 const auth = require('../controllers/usersAuthController.js');
 const poster = require ('../controllers/moviePosterController.js');
 const getMovies = require('../controllers/getMoviesController.js');
+const streaming = require('../controllers/streamingController.js');
 
 const router = Router();
 
@@ -34,6 +35,12 @@ router.get('/discover', getMovies.getDiscoverMovies);
 router.get('/getReviews', getMovies.getReviews);
 router.get('/newMovies', getMovies.getNewMovies);
 router.get('/getMomentMovie', getMovies.getMomentMovie);
+router.get('/getAllGenres', getMovies.getAllGenres);
+router.get('/getTwelveMovies', getMovies.getTwelveMovies);
+
+router.get('/streamingService', streaming.getStreamingMovies);
+router.get('/streamingGenre', streaming.getStreamingAndGenre);
+
 
 
 module.exports = router;

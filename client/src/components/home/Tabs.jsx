@@ -3,13 +3,17 @@ import styled from "styled-components";
 import Netflix from "./Netflix";
 import Discover from "./Discover";
 import New from "./New";
+import { useNavigate } from 'react-router-dom';
+
 
 export function Tabs({ onLoad }) {
   const [activeTab, setactiveTab] = useState(0);
   const [isClicked, setIsClicked] = useState(false);
+  const navigate = useNavigate();
 
   const handleButtonClick = () => {
     setIsClicked(true);
+    navigate('/genres');
   }
 
   const seleccionar = (index) => {
@@ -48,6 +52,7 @@ export function Tabs({ onLoad }) {
         onMouseDown={() => setIsClicked(true)}
         onMouseUp={() => setIsClicked(false)}
         onMouseLeave={() => setIsClicked(false)}
+        onClick={handleButtonClick}
       >
         See more
       </button>
