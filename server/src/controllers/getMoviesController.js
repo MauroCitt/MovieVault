@@ -84,17 +84,33 @@ const getMoviesController = {
         const movieId = req.query.idMovie;
 
         const movieInfo = await Movie.findOne({ id: movieId });
+
         const genresId = movieInfo.genero;
         const genresName = await getGenres(genresId);
 
         const topThree = await getMoviesController.getRecommendations(movieId);
+        let backdropPath = null;
+
+        try {
+            const response = await fetch(
+                `https://api.themoviedb.org/3/movie/${movieId}`,
+                options
+            );
+            const data = await response.json();
+            console.log(data);
+            backdropPath = data.backdrop_path;
+
+
+        } catch (error) {
+            console.log(error);
+        }
 
         const topThreeImages = await Promise.all(topThree.map(async (movie) => {
             return await fetchImages(movie.id);
         }));
 
 
-        res.json({ movieInfo, genresName, topThreeImages, topThree });
+        res.json({ movieInfo, genresName, topThreeImages, topThree, backdropPath });
     },
 
     getReviews: async function (req, res) {

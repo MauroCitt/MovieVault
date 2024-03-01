@@ -4,26 +4,57 @@ import { ColorRing } from 'react-loader-spinner';
 import { useNavigate } from 'react-router-dom';
 import starImage from '../../images/estrella.png';
 import Streaming from './StreamingTabs/Streaming';
+import Suggestions from './Suggestions';
 
 
 const Busqueda = () => {
 
-    const [movieImages, setMovieImages] = useState();
     const [selectedMovie, setSelectedMovie] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [activeTab, setactiveTab] = useState(0);
     const [dropDownOpen, setDropDownOpen] = useState(false);
-    const [genresName, setGenresName] = useState([]);
-    const [selectedGenre, setSelectedGenre] = useState('Genres');
+    const [isClicked, setIsClicked] = useState(false);
+    const [isSearching, setIsSearching] = useState([]);
 
+    const [genresName, setGenresName] = useState([]);
+    const [queryItems, setQueryItems] = useState([]);
+
+    const [activeTab, setActiveTab] = useState(0);
+    const [movieImages, setMovieImages] = useState();
+    const [selectedGenre, setSelectedGenre] = useState('Genres');
+    const [inputContent, setInputContent] = useState("");
+    const [suggestions, setSuggestions] = useState(false);
+
+    const dropdownRef = useRef(null);
+
+
+    const handleButtonClick = () => {
+        setSelectedGenre("All");
+        setActiveTab(4);
+        setIsClicked(true);
+        setIsSearching(!isSearching);
+    }
 
     const navigate = useNavigate();
 
     const seleccionar = (index) => {
-        setactiveTab(index);
+        setActiveTab(index);
+        setIsClicked(false);
     };
 
-    const dropdownRef = useRef(null);
+    const onSuggestionClick = (suggestion) => {
+        setInputContent(suggestion);
+        handleButtonClick();
+        setSuggestions(false);
+    };
+
+    useEffect(() => {
+        if (inputContent.length >= 3) {
+            setSuggestions(true);
+            console.log(suggestions)
+        } else {
+            setSuggestions(false);
+        }
+    }, [inputContent]);
 
     useEffect(() => {
         const fetchMovieImages = async () => {
@@ -55,18 +86,14 @@ const Busqueda = () => {
             try {
                 const res = await axios.get('http://localhost:4000/getAllGenres');
                 const genres = res.data;
-                console.log(genres);
 
                 let genresNames = [];
                 genres.forEach(element => {
-                    console.log(element)
                     genresNames.push(element.nombre);
                 });
 
                 genresNames.push("All");
-
                 setGenresName(genresNames);
-                console.log(genresNames);
 
             } catch (error) {
                 console.error("Error fetching genres", error);
@@ -74,6 +101,23 @@ const Busqueda = () => {
         }
         allGenres();
     }, []);
+
+    useEffect(() => {
+        async function getNames() {
+            if (inputContent.length < 3 || inputContent === "") {
+                return;
+            }
+
+            try {
+                const res = await axios.get('http://localhost:4000/getElasticSearch?query=' + inputContent);
+                console.log(res.data)
+                setQueryItems(res.data);
+            } catch (error) {
+                console.error("Error fetching names", error);
+            }
+        }
+        getNames();
+    }, [inputContent]);
 
 
     if (isLoading) {
@@ -100,7 +144,7 @@ const Busqueda = () => {
 
     const title = movieImages.bestMovie.original_title;
     const overview = movieImages.bestMovie.overview;
-    console.log(title);
+
     let fontSize = 'text-5xl';
     let fontSizeOverview = 'text-2xl';
 
@@ -116,35 +160,34 @@ const Busqueda = () => {
 
     return (
         <div>
-            <div key={urlImage} className={`flex grid-cols-2 gap-4 relative bg-cover bg-center h-screen items-center justify-start`} style={{ backgroundImage: `url(${urlImage})`, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+            <div key={urlImage} className={`flex grid-cols-2 gap-4 relative bg-cover bg-center min-h-screen items-center justify-start`} style={{ backgroundImage: `url(${urlImage})`, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
                 <div className="absolute inset-0 backdrop-filter backdrop-blur-sm" style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}>
                 </div>
                 <div className="relative flex max-w-full">
-                    <div className="px-4">
+                    <div className="px-4 2xl:mr-5">
                         <img
-                            src={`https://image.tmdb.org/t/p/w500/${movieImages.imagePath}`}
+                            src={`https://image.tmdb.org/t/p/w780/${movieImages.imagePath}`}
                             alt={`Movie Poster`}
-                            className="transition ease-in-out duration-150 ml-20 shadow-lg cursor-pointer object-cover 2xl:w-full h-full"
-                            style={{ maxWidth: '350px', maxHeight: '500px', width: '100%', height: '100%' }}
+                            className="object-scale-down max-h-full transition ease-in-out duration-150 sm:ml-0 sm:w-full xl:ml-20 xl:w-full xl:h-[500px] 2xl:w-full 2xl:h-[700px]"
                             onClick={() => handleMovieClick()}
                         />
                     </div>
                     <div className='flex flex-col ml-10 items-start md:w-1/2 2xl:w-3/5'>
-                        <h1 className={`font-saira font-bold text-white xl:${fontSize} 2xl:text-7xl mb-4`}>
+                        <h1 className={`font-saira font-bold text-white xl:${fontSize} 2xl:text-7xl xl:mb-4 2xl:mb-8`}>
                             {movieImages.bestMovie.original_title}
                         </h1>
-                        <p className='mr-20 xl:text-2xl 2xl:text-3xl text-white font-inter'>
+                        <p className='mr-20 xl:text-2xl 2xl:text-3xl text-white font-inter 2xl:mb-8'>
                             {releaseYear}
                         </p>
-                        <p className='mr-20 xl:text-2xl 2xl:text-3xl text-white font-inter'>
+                        <p className='mr-20 xl:text-2xl 2xl:text-3xl text-white font-inter 2xl:mb-8'>
                             {movieImages.genresName.map((genre) => genre).join(', ')}
                         </p>
-                        <div class="flex items-start mt-2">
+                        <div class="flex items-start 2xl:mb-8">
                             <img src={starImage} alt='star' className='w-10 h-10' style={{ width: '35px', height: '35px' }} />
                             <p class="text-white xl:text-2xl 2xl:text-3xl font-inter mt-1 ml-2">{b} / 10</p>
                         </div>
-                        <div class="mt-2 overflow-y-visible h-48 w-full text-justify">
-                            <p className={`text-white font-inter text-base md:${fontSizeOverview} 2xl:text-2xl`}>
+                        <div class="overflow-y-visible h-48 w-full text-justify">
+                            <p className={`text-white font-inter text-base md:${fontSizeOverview} 2xl:text-3xl`}>
                                 {movieImages.bestMovie.overview}
                             </p>
                         </div>
@@ -170,34 +213,60 @@ const Busqueda = () => {
                             </ul>
                         </div>
                     </div>
+                    <div class="max-w-md mx-auto">
+                        <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                </svg>
+                            </div>
+                            <div class="relative flex items-center">
+                                <input
+                                    type="search"
+                                    id="default-search"
+                                    onChange={event => setInputContent(event.target.value)}
+                                    class="block w-full sm:w-[150%] xl:w-auto xl:max-w-lg 2xl:max-w-xl py-2 px-10 sm:pl-10 sm:pr-20 xl:py-2 xl:pl-20 2xl:py-3 2xl:pl-10 text-sm 2xl:text-md text-white border border-purple-900 rounded-lg bg-slate-900 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    placeholder="Search for a movie..."
+                                    required
+                                />
+                                {suggestions ? <Suggestions suggestions={queryItems} onSuggestionClick={onSuggestionClick} className="absolute z-50 w-[80%] mt-1" /> : null}
+                                <button
+                                    type="submit"
+                                    onClick={() => handleButtonClick()}
+                                    class="text-white font-inter ml-2 sm:p-2 xl:p-2 2xl:p-3 shadow-sm bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                     <div className="d-flex justify-content-end overflow-auto">
                         <ul class="flex flex-wrap pr-10 justify-end">
-                            <li onClick={() => seleccionar(0)} className={activeTab == 0 ? "me-2 inline-block p-4 text-white no-underline border-b-2 border-purple-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500" : "inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white no-underline hover:border-gray-300 dark:hover:text-white"}>
+                        <li onClick={() => seleccionar(4)} className={activeTab == 4 ? "me-2 inline-block p-4 text-white no-underline border-b-2 border-purple-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500" : "me-2 inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white no-underline hover:border-gray-300 dark:hover:text-white"}>
+                                All
+                            </li>
+                            <li onClick={() => seleccionar(0)} className={activeTab == 0 ? "me-2 inline-block p-4 text-white no-underline border-b-2 border-purple-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500" : "me-2 inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white no-underline hover:border-gray-300 dark:hover:text-white"}>
                                 Netflix
                             </li>
-                            <li onClick={() => seleccionar(1)} className={activeTab == 1 ? "me-2 inline-block p-4 text-white no-underline border-b-2 border-purple-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500" : "inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white no-underline hover:border-gray-300 dark:hover:text-white"}>
-                                Prime Video
+                            <li onClick={() => seleccionar(1)} className={activeTab == 1 ? "me-2 inline-block p-4 text-white no-underline border-b-2 border-purple-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500" : "me-2 inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white no-underline hover:border-gray-300 dark:hover:text-white"}>
+                                Prime
                             </li>
-                            <li onClick={() => seleccionar(2)} className={activeTab == 2 ? "me-2 inline-block p-4 text-white no-underline border-b-2 border-purple-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500" : "inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white no-underline hover:border-gray-300 dark:hover:text-white"}>
+                            <li onClick={() => seleccionar(2)} className={activeTab == 2 ? "me-2 inline-block p-4 text-white no-underline border-b-2 border-purple-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500" : "me-2 inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white no-underline hover:border-gray-300 dark:hover:text-white"}>
                                 HBO
                             </li>
-                            <li onClick={() => seleccionar(3)} className={activeTab == 3 ? "me-2 inline-block p-4 text-white no-underline border-b-2 border-purple-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500" : "inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white no-underline hover:border-gray-300 dark:hover:text-white"}>
+                            <li onClick={() => seleccionar(3)} className={activeTab == 3 ? "me-2 inline-block p-4 text-white no-underline border-b-2 border-purple-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500" : "me-2 inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white no-underline hover:border-gray-300 dark:hover:text-white"}>
                                 Filmin
                             </li>
-                            <li onClick={() => seleccionar(4)} className={activeTab == 4 ? "me-2 inline-block p-4 text-white no-underline border-b-2 border-purple-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500" : "inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white no-underline hover:border-gray-300 dark:hover:text-white"}>
-                                Apple TV+
-                            </li>
-                            <li onClick={() => seleccionar(5)} className={activeTab == 5 ? "me-2 inline-block p-4 text-white no-underline border-b-2 border-purple-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500" : "inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white no-underline hover:border-gray-300 dark:hover:text-white"}>
+                            <li onClick={() => seleccionar(5)} className={activeTab == 5 ? "me-2 inline-block p-4 text-white no-underline border-b-2 border-purple-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500" : "me-2 inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-white no-underline hover:border-gray-300 dark:hover:text-white"}>
                                 Disney+
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div className="tab-content mt-10">
-                    <div><Streaming activeTab={activeTab} selectedGenre={selectedGenre} /></div>
+                    <div><Streaming isSearching={isSearching} activeTab={activeTab} selectedGenre={selectedGenre} savedInput={inputContent} isClicked={isClicked} queryItems={queryItems} setQueryItems={setQueryItems} setIsClicked={setIsClicked} inputContent={inputContent} /></div>
                 </div>
             </div>
-
         </div>
     )
 

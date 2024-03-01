@@ -61,7 +61,6 @@ const MovieInfo = () => {
                 console.log(res.data);
                 setMovieReviews(res.data.results);
             } catch (err) {
-                console.log(err);
             }
         };
         fetchMovieImages();
@@ -72,7 +71,6 @@ const MovieInfo = () => {
             console.log(id);
             try {
                 const res = await axios.get(`http://localhost:4000/getInfo?idMovie=${id}`);
-                console.log(res.data);
                 return res.data;
             } catch (error) {
                 console.log(error);

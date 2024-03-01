@@ -2,8 +2,8 @@ import React from 'react'
 
 const Footer = () => {
     return (
-        <footer class="bg-slate-800 dark:bg-gray-800">
-            <div class="w-full mx-auto max-w-screen-xl py-4 md:flex md:items-center md:justify-between">
+        <footer class="fixed bottom-0 w-full bg-slate-800 dark:bg-gray-800">
+            <div class="mx-auto max-w-screen-xl py-4 md:flex md:items-center md:justify-between">
                 <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2023 <a href="#" class="hover:underline">Mauro Cittadini</a>. All Rights Reserved.
                 </span>
                 <ul class="flex flex-wrap mt-4 items-center text-sm font-medium text-gray-500 dark:text-gray-400 sm:mt-0">
@@ -21,7 +21,8 @@ const Footer = () => {
                     </li>
                 </ul>
             </div>
-        </footer>)
+        </footer>
+    )
 }
 
 export default Footer

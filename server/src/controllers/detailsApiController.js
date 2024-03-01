@@ -9,15 +9,15 @@ const init = async () => {
 
 init();
 
-const providerApiController = {};
+const detailsApiController = {};
 
 const apiKey = '4ede0b04611cdf9bdd6b1943d9ac3f24';
 const authorization = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0ZWRlMGIwNDYxMWNkZjliZGQ2YjE5NDNkOWFjM2YyNCIsInN1YiI6IjY1NGI3NTYxZmQ0ZjgwMDBjN2ZlNWY4NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Wzm-mDwRjmcNv_Nx3XkJtZrxfcfkC805GvdNYUg5stc';
-const urlApiMovie = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&vote_count.gte=2000';
+const urlApiMovie = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_average.desc&vote_count.gte=2000';
 const urlApiPopular = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1";
 
 
-providerApiController.getJsonFile = async (req, res, next) => {
+detailsApiController.getJsonFile = async (req, res, next) => {
     const options = {
         method: "GET",
         headers: {
@@ -51,41 +51,42 @@ providerApiController.getJsonFile = async (req, res, next) => {
     }
 
     try {
-        const placeCode = "ES";
+        let runtime;
 
         for (var ids of idsLista) {
             for (var idMovie of ids) {
+                let producersName = [];
 
                 const urlApi =
-                    "https://api.themoviedb.org/3/movie/" + idMovie + "/watch/providers";
+                    'https://api.themoviedb.org/3/movie/'+ idMovie +'language=en-US';
                 console.log(urlApi);
 
                 let response = await fetch(urlApi, options);
                 let data = await response.json();
+                console.log(data);
 
-                const providersForPlace = data.results && data.results[placeCode];
+                const producers = data.production_companies;
 
-                if (providersForPlace) {
-                    const flatrateProviders = providersForPlace.flatrate || [];
-                
-                    const flatrateProviderNames = flatrateProviders.map(
-                        (provider) => provider.provider_name
+                let movie = await Movie.findOne({ id: idMovie });
+
+                if (!movie.runtime) {
+                    await Movie.findOneAndUpdate(
+                        { id: idMovie },
+                        { runtime: data.runtime},
+                        { new: true, upsert: true }
                     );
-                
-                    console.log(flatrateProviderNames);
+                }
 
-                    let movie = await Movie.findOne({ id: idMovie });
+                producers.forEach(element => {
+                    producersName.push(element.name);
+                });
 
-                    if (!movie.providers || movie.providers.length === 0) {
-                        console.id("updating movie" + idMovie + "with providers" + flatrateProviderNames)
-                        await Movie.findOneAndUpdate(
-                            { id: idMovie },
-                            { providers: flatrateProviderNames },
-                            { new: true, upsert: true }
-                        );
-                    }
-                
-                    allData.push(data);
+                if (!movie.producers || movie.producers.length === 0) {
+                    await Movie.findOneAndUpdate(
+                        { id: idMovie },
+                        { producers: producersName},
+                        { new: true, upsert: true }
+                    );
                 }
             }
         }
@@ -95,7 +96,6 @@ providerApiController.getJsonFile = async (req, res, next) => {
         res.status(500).json({ error: "Internal Server Error" });
         return;
     }
-
 };
 
-module.exports = providerApiController;
+module.exports = detailsApiController;

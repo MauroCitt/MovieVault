@@ -293,7 +293,6 @@ function App() {
           <Route path="/genres" element={<Busqueda />} />
         </Routes>
       </Router>
-      <Footer />
     </div>
   );
 }

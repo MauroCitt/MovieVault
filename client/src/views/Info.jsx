@@ -1,7 +1,7 @@
 import React from 'react';
 import NavbarHome from '../components/Navbar';
 import '../styles/Profile.css';
-import MovieInfo from '../components/movies/MovieInfo';
+import MovieInfo from '../components/movies/MovieInfo2';
 
 
 const Info = (props) => {

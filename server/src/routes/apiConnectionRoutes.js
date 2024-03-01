@@ -8,6 +8,8 @@ const auth = require('../controllers/usersAuthController.js');
 const poster = require ('../controllers/moviePosterController.js');
 const getMovies = require('../controllers/getMoviesController.js');
 const streaming = require('../controllers/streamingController.js');
+const details = require('../controllers/detailsApiController.js');
+const fixing = require('../controllers/fixing.js');
 
 const router = Router();
 
@@ -39,7 +41,15 @@ router.get('/getAllGenres', getMovies.getAllGenres);
 router.get('/getTwelveMovies', getMovies.getTwelveMovies);
 
 router.get('/streamingService', streaming.getStreamingMovies);
-router.get('/streamingGenre', streaming.getStreamingAndGenre);
+router.get('/searchQuery', streaming.getMovieQuery);
+router.get('/getElasticSearch', streaming.getMovieQueryName);
+
+router.get('/getDetails', details.getJsonFile);
+router.get('/fixing', fixing.fixMissingTitles);
+router.get('/fixingCrew', fixing.fixMissingCrew);
+router.get('/fixingDirector', fixing.fixMissingDirector);
+router.get('/fixingDates', fixing.fixMissingYear);
+router.get('/fixingAll', fixing.fix282);
 
 
 

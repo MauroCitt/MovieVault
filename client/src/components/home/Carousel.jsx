@@ -118,7 +118,6 @@ const Carousel = () => {
                     <div className="swiper-button-next slider-arrow ml-40">
                         <ion-icon name="arrow-forward-outline"></ion-icon>
                     </div>
-                    <div className="swiper-pagination"></div>
                 </div>
             </Swiper>
         </div>

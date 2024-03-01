@@ -22,7 +22,6 @@ const Streaming = (props) => {
     const firstItemIndex = lastItemIndex - itemsPerPage;
     const currentItems = movieImages.slice(firstItemIndex, lastItemIndex);
 
-
     useEffect(() => {
         let streamingPlatform = "";
 
@@ -40,7 +39,7 @@ const Streaming = (props) => {
                 streamingPlatform = "Filmin";
                 break;
             case 4:
-                streamingPlatform = "Apple TV Plus";
+                streamingPlatform = "All";
                 break;
             case 5:
                 streamingPlatform = "Disney Plus";
@@ -50,8 +49,10 @@ const Streaming = (props) => {
                 break;
         }
 
+    
         const fetchMovieImages = async () => {
             try {
+                console.log("fetchMovieImages")
                 const res = await axios.get(`http://localhost:4000/streamingService?page=${currentPage}&streamingPlatform=${streamingPlatform}&genre=${props.selectedGenre}`);
                 setMovieImages(res.data.movies);
                 setTotalPages(Math.ceil(res.data.totalMovies / itemsPerPage));
@@ -60,8 +61,28 @@ const Streaming = (props) => {
                 console.log(err);
             }
         };
-        fetchMovieImages();
-    }, [currentPage, props.activeTab, props.selectedGenre]);
+    
+        const fetchMovieImagesSearch = async () => {
+            try {
+                console.log("fetchMovieImagesSearch")
+                const res = await axios.get(`http://localhost:4000/searchQuery?query=${props.savedInput}&page=${currentPage}&streamingPlatform=${streamingPlatform}&genre=${props.selectedGenre}`);
+                setMovieImages(res.data.movies);
+                props.setQueryItems(res.data.movies.title)
+                setTotalPages(Math.ceil(res.data.totalMovies / itemsPerPage));
+                setIsLoading(false);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+    
+        props.isClicked ? fetchMovieImagesSearch() : fetchMovieImages();
+    }, [props.isSearching, currentPage, props.activeTab, props.selectedGenre]);
+
+
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [props.isClicked]);
+
 
     useEffect(() => {
         setCurrentPage(1);

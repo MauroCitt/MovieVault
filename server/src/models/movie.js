@@ -13,6 +13,8 @@ const movieSchema = new Schema
         vote_average: {type: Number},
         release_date: {type: String},
         overview: {type: String},
+        runtime: {type: Number},
+        producers: [{type: String}]
     });
 
     module.exports = model('movie', movieSchema);
