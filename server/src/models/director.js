@@ -7,4 +7,4 @@ const directorSchema = new Schema
         peliculas: [{ type: Number, ref: 'movie', required: true }]
     });
 
-    export default mongoose.model('director', directorSchema);
+    module.exports = model('director', directorSchema);

@@ -3,16 +3,20 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import Enter from './components/auth/Enter.js';
-import Profile from './components/profile/Profile.js';
+import Profile from './components/profile/Profile.jsx';
 import UserEmail from './components/auth/UserEmail.js';
 import ProtectedRoute from './components/auth/ProtectedRoute.js';
 import Cookies from 'universal-cookie';
 import useAuth from './components/auth/userAuth.js';
 import { Toaster, toast } from 'sonner';
 import Home from './views/Home.js';
+import Info from './views/Info.jsx';
 import RecoverPass from './components/passRecovery/RecoverPass.jsx';
 import OTPInput from './components/passRecovery/OTPInput.jsx';
 import RecoverPassForm from './components/passRecovery/RecoverPassForm.jsx';
+import Navbar from './components/Navbar.jsx';
+import Footer from './components/Footer.jsx';
+import Busqueda from './components/home/Busqueda.jsx';
 
 const URL = 'http://localhost:4000/';
 
@@ -21,41 +25,45 @@ function App() {
   const { loggedIn, login, logout } = useAuth();
 
   const [userEmail, setUserEmail] = useState('');
-  const[userPass, setUserPass] = useState('');
-  const[userPassConfirmation, setUserPassConfirmation] = useState('');
+  const [userPass, setUserPass] = useState('');
+  const [user, setUser] = useState('');
+  const [userPassConfirmation, setUserPassConfirmation] = useState('');
   const [signInMode, setSignInMode] = useState(true);
   const [passwordEditable, setPasswordEditable] = useState(true);
   const [validOTP, setValidOTP] = useState(false);
+  const [image, setImage] = useState('profile.jpg');
+
+
 
   const toggleMode = () => {
     setSignInMode((prevMode) => !prevMode);
   };
 
-  const token = JSON.parse(localStorage.getItem('token'));
   const email = JSON.parse(localStorage.getItem('email'));
   const OTP = JSON.parse(localStorage.getItem('OTP'));
-  let passLength;
+  let profileImage = localStorage.getItem('image', image);
+
 
   // ************** Sign in **************
   const signIn = async (email, magicLink, signInMode, userPass) => {
-    if(signInMode){
+    if (signInMode) {
       checkingPass(email, userPass);
     } else {
-    try {
-      let res = await axios.post(`${URL}login/user`, { email, magicLink });
-      if(res.data.emailSent){
-        notify(res.data.message);
-      } else if (!res.data.emailSent && !res.data.token){
-        notifyError(res.data.message);
+      try {
+        let res = await axios.post(`${URL}login/user`, { email, magicLink });
+        if (res.data.emailSent) {
+          notify(res.data.message);
+        } else if (!res.data.emailSent && !res.data.token) {
+          notifyError(res.data.message);
+        }
+        else if (res.data.token) {
+          login(res.data.email, res.data.token);
+        }
+      } catch (e) {
+        alert(e);
       }
-      else if (res.data.token) {
-        login(res.data.email, res.data.token);
-      }
-    } catch (e) {
-      alert(e);
-    }
+    };
   };
-};
 
   // Email
   const enterEmail = (e) => {
@@ -75,103 +83,102 @@ function App() {
     setUserPass('');
   }
 
+  // User
+  const enterUser = (e) => {
+    setUser(e.target.value);
+  }
 
   // ************** Sign up **************
 
-    // Password 
-    const enterPassword = (e) => {
-      setUserPass(e.target.value);
-      console.log(userPass);
-    };
-    
+  // Password 
+  const enterPassword = (e) => {
+    setUserPass(e.target.value);
+  };
+
   const passwordSubmit = (e) => {
     e.preventDefault();
-    signUp(email, userPass);
-    passLength = userPass.length;
+    signUp(email, userPass, user);
     setUserPass('');
+    setUser('');
   }
 
-   // Password confirmation
   const enterPasswordConfirmation = (e) => {
     setUserPassConfirmation(e.target.value);
   };
-  
 
-  const signUp = async (email, pass) => {
+  const signUp = async (email, pass, username) => {
     try {
-      let res = await axios.post(`${URL}profile/register`, { email, pass });
-      if(res.data.ok){
+      let res = await axios.post(`${URL}profile/register`, { email, pass, username });
+      if (res.data.ok) {
         setPasswordEditable(false);
         checkingPass(email, pass);
+      } else {
+        notifyError(res.data.message);
       }
-  } catch(e){
-    console.log(e);
-  }
-};
-
-const checkingPass = async (email, pass) => {
-  try{
-    let res = await axios.post(`${URL}profile/verify`, {email, pass}, {withCredentials: true});
-
-    if(res.data.passwordMatch){
-      login(email, res.data.tokenPass);
-    } else {
-      notifyError(res.data.message);
+    } catch (e) {
+      console.log(e);
     }
-  } catch(e){
-    console.log(e);
-  }
-}
+  };
 
-// ************** Password recovery **************
+  const checkingPass = async (email, pass) => {
+    try {
+      let res = await axios.post(`${URL}profile/verify`, { email, pass }, { withCredentials: true });
 
-const passwordResetSending = (e) => {
-  e.preventDefault();
-  let emailP = localStorage.getItem('email');
-  passwordReset(emailP, userPass, userPassConfirmation);
-  setUserPass('');
-  setUserPassConfirmation('');
-}
-
-const passwordReset = async (email, userPass, userPassRecovery) => {
-  try{
-    let res = await axios.post(`${URL}profile/passwordReset`, {email, userPass, userPassRecovery}, {withCredentials: true});
-    if(res.data.ok){
-      notify(res.data.message);
-      navigateToLogin();
-    } else {
-      notifyError(res.data.message);
+      if (res.data.passwordMatch) {
+        login(email, res.data.tokenPass);
+      } else {
+        notifyError(res.data.message);
+      }
+    } catch (e) {
+      console.log(e);
     }
-  } catch(e){
-    console.log(e);
   }
-}
 
-//Recovering password
-const passwordRecoveringSent = (e) => {
-  e.preventDefault();
-  recoverPassword(userEmail);
-  console.log(userEmail);
-  localStorage.setItem('email', JSON.stringify(userEmail));
-  setUserEmail('');
-}
+  // ************** Password recovery **************
 
+  const passwordResetSending = (e) => {
+    e.preventDefault();
+    let emailP = localStorage.getItem('email');
+    passwordReset(emailP, userPass, userPassConfirmation);
+    setUserPass('');
+    setUserPassConfirmation('');
+  }
 
-const recoverPassword = async (email) => {
-  console.log(email);
-  try {
-    let res = await axios.post(`${URL}recoverPassword`, { email });
-    console.log(res.data);
-    if(!res.data.ok){
-      notifyError(res.data.message);
-    } else {
-      localStorage.setItem('OTP', res.data.OTP);
-      navigateToOPTInput();
+  const passwordReset = async (email, userPass, userPassRecovery) => {
+    try {
+      let res = await axios.post(`${URL}profile/passwordReset`, { email, userPass, userPassRecovery }, { withCredentials: true });
+      if (res.data.ok) {
+        notify(res.data.message);
+        navigateToLogin();
+      } else {
+        notifyError(res.data.message);
+      }
+    } catch (e) {
+      console.log(e);
     }
-} catch(e){
-  console.log(e);
-}
-}
+  }
+
+  //Recovering password
+  const passwordRecoveringSent = (e) => {
+    e.preventDefault();
+    recoverPassword(userEmail);
+    localStorage.setItem('email', JSON.stringify(userEmail));
+    setUserEmail('');
+  }
+
+  const recoverPassword = async (email) => {
+    try {
+      let res = await axios.post(`${URL}recoverPassword`, { email });
+      if (!res.data.ok) {
+        notifyError(res.data.message);
+      } else {
+        localStorage.setItem('OTP', res.data.OTP);
+        navigateToOPTInput();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   // ************** Toast **************
   const notify = (message) => toast.success(message, {
@@ -208,12 +215,11 @@ const recoverPassword = async (email) => {
     window.location.href = '/recoverPassword/validateOTP';
   }
 
-  
-
   return (
     <div className="App">
       <Toaster position="bottom-right" />
       <Router>
+      <Navbar logout={logout} profileImage={profileImage} image={image} loggedIn={loggedIn}/>
         <Routes>
           <Route
             path="/login"
@@ -240,6 +246,8 @@ const recoverPassword = async (email) => {
           <Route
             path="/profile"
             element={
+              <ProtectedRoute user={loggedIn}>
+
                 <Profile logout={logout}
                   enterPassword={enterPassword}
                   email={email}
@@ -247,34 +255,42 @@ const recoverPassword = async (email) => {
                   setUserPass={setUserPass}
                   passwordSubmit={passwordSubmit}
                   passwordEditable={passwordEditable}
-                  />
+                  user={user}
+                  enterUser={enterUser}
+                  image={image}
+                  setImage={setImage}
+                  profileImage={profileImage}
+                />
+              </ProtectedRoute>
+
             }
           />
           <Route
             path="/home"
             element={
-              <ProtectedRoute user={loggedIn}>
-                <Home />
-              </ProtectedRoute>
+              <Home />
             }
           />
           <Route path="verify/:email/:link" element={<Enter signIn={signIn} />} />
           <Route path='/recoverPassword' element={
-            <RecoverPass navigateToLogin={navigateToLogin} passwordRecoveringSent={passwordRecoveringSent} userEmail={userEmail} enterEmail={enterEmail} /> 
-          }/>
+            <RecoverPass navigateToLogin={navigateToLogin} passwordRecoveringSent={passwordRecoveringSent} userEmail={userEmail} enterEmail={enterEmail} />
+          } />
           <Route path="/recoverPassword/validateOTP"
             element={
               <OTPInput
                 OTP={OTP}
-                validOTP={validOTP} 
+                validOTP={validOTP}
                 setValidOTP={setValidOTP}
-                userEmail={userEmail} 
+                userEmail={userEmail}
                 navigateToPasswordReset={navigateToPasswordReset}
               />
             }
           />
-            <Route path='/passwordReset' element={<RecoverPassForm userPass={userPass} enterPassword={enterPassword} userPassConfirmation={userPassConfirmation} enterPasswordConfirmation={enterPasswordConfirmation} passwordResetSending={passwordResetSending}/>}/>
-          <Route path="/" element={loggedIn ? <Navigate to="/home" /> : <Navigate to="/login"/>} />
+          <Route path='/passwordReset' element={<RecoverPassForm userPass={userPass} enterPassword={enterPassword} userPassConfirmation={userPassConfirmation} enterPasswordConfirmation={enterPasswordConfirmation} passwordResetSending={passwordResetSending} />} />
+          <Route path="/" element={loggedIn ? <Navigate to="/home" /> : <Navigate to="/login" />} />
+          <Route path="/movieInfo/:titulo" element={<Info />} />
+          <Route path="*" element={<Navigate to="/home" />} />
+          <Route path="/genres" element={<Busqueda />} />
         </Routes>
       </Router>
     </div>

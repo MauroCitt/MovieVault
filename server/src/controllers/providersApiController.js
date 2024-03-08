@@ -1,5 +1,5 @@
 const Movie = require("../models/movie.js");
-const { ids } = require("./apiConnectionController.js");
+const { apiConnectionController } = require("./apiConnectionController.js");
 
 let fetch;
 
@@ -13,6 +13,9 @@ const providerApiController = {};
 
 const apiKey = '4ede0b04611cdf9bdd6b1943d9ac3f24';
 const authorization = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0ZWRlMGIwNDYxMWNkZjliZGQ2YjE5NDNkOWFjM2YyNCIsInN1YiI6IjY1NGI3NTYxZmQ0ZjgwMDBjN2ZlNWY4NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Wzm-mDwRjmcNv_Nx3XkJtZrxfcfkC805GvdNYUg5stc';
+const urlApiMovie = 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&vote_count.gte=2000';
+const urlApiPopular = "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1";
+
 
 providerApiController.getJsonFile = async (req, res, next) => {
     const options = {
@@ -25,15 +28,33 @@ providerApiController.getJsonFile = async (req, res, next) => {
     };
 
     let allData = [];
+    let idsLista = [];
+
+    try {
+        for (let index = 1; index < 101; index++) {
+            let currentUrlApi = urlApiMovie.replace(/page=\d+/, `page=${index}`);
+            let response = await fetch(currentUrlApi, options);
+            let data = await response.json();
+            const movies = data.results;
+            idsLista.push(movies.map((movie) => movie.id));
+
+            if (index < 20) {
+                let currentUrlApi = urlApiPopular.replace(/page=\d+/, `page=${index}`);
+                let response = await fetch(currentUrlApi, options);
+                let data = await response.json();
+                const movies = data.results;
+                idsLista.push(movies.map((movie) => movie.id));
+            }
+        }
+    } catch (error) {
+        console.log(error);
+    }
 
     try {
         const placeCode = "ES";
 
-        for (var id of ids) {
-            for (var idMovie of id) {
-                // Reset providers for each movie
-                let flatrateProviders = [];
-                let buyProviders = [];
+        for (var ids of idsLista) {
+            for (var idMovie of ids) {
 
                 const urlApi =
                     "https://api.themoviedb.org/3/movie/" + idMovie + "/watch/providers";
@@ -52,22 +73,29 @@ providerApiController.getJsonFile = async (req, res, next) => {
                     );
                 
                     console.log(flatrateProviderNames);
-                
-                    await Movie.findOneAndUpdate(
-                        { id: idMovie },
-                        { providers: flatrateProviderNames }
-                    );
+
+                    let movie = await Movie.findOne({ id: idMovie });
+
+                    if (!movie.providers || movie.providers.length === 0) {
+                        console.id("updating movie" + idMovie + "with providers" + flatrateProviderNames)
+                        await Movie.findOneAndUpdate(
+                            { id: idMovie },
+                            { providers: flatrateProviderNames },
+                            { new: true, upsert: true }
+                        );
+                    }
                 
                     allData.push(data);
                 }
             }
         }
 
-        res.json(allData);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
+        return;
     }
+
 };
 
 module.exports = providerApiController;

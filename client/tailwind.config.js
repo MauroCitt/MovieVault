@@ -5,7 +5,13 @@ module.exports = {
     './public/index.html', 
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'inter': ['Inter', 'sans-serif'],
+        'saira': ['Saira-Condensed', 'sans-serif'],
+        'bebas': ['Bebas Neue', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 };

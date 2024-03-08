@@ -63,7 +63,10 @@ const login = async (req, res) => {
 };
 
 const signUp = async (req, res) => {
-  const { email, pass } = req.body;
+  const { email, pass, username } = req.body;
+  console.log("username: " + username);
+
+  let userDefault = "new_user_" + Math.floor(Math.random() * 1000000);
 
   if (!email || !pass) {
     console.log("Email or password not provided");
@@ -95,9 +98,20 @@ const signUp = async (req, res) => {
         });
       });
 
+    if (pass.length < 8) {
+      console.log("Password too short");
+      return res.json({ ok: false, message: "La contraseña debe tener al menos 8 caracteres" });
+    }
+
+    if (username == "" || username == null) {
+      username = userDefault;
+    }
       await User.findOneAndUpdate(
         { Email: email },
-        { Password: hashPass }
+        { 
+          Password: hashPass,
+          userName: username
+        }
       );
       res.send({ ok: true, message: 'Contraseña creada' });
     }
@@ -106,8 +120,6 @@ const signUp = async (req, res) => {
     res.status(500).json({ ok: false, error });
   }
 };
-
-
 
 const verify_token = (req, res) => {
 	const token = req.cookies.token;
@@ -153,7 +165,6 @@ const logout = (req, res) => {
 const recoverPasswordUser = async (req, res) => {
   const {email} = req.body;
   const user = await User.findOne({ Email: email });
-  console.log("emailR: " + email)
 
   if (!user) {
     console.log("User not found");
@@ -178,8 +189,6 @@ const changingPass = async (req, res) => {
       return res.json({ ok: false, message: "El usuario no existe" });
     }
 
-    console.log("emailP: " + emailR);
-
     if (userPassRecovery === userPass) {
       const hashPass = await bcrypt.hash(userPass, 10);
 
@@ -198,4 +207,66 @@ const changingPass = async (req, res) => {
   }
 };
 
-module.exports = { login, verify_token, signUp, checkingPass, logout, recoverPasswordUser, changingPass };
+const getUsername = async (req, res) => {
+  console.log(req.body);
+  let email = req.query.email;
+  
+  try{
+    const user = await User.findOne({ Email: email });
+    console.log("emailaaa " + email);
+
+    if (!user) {
+      console.log("User not found");
+      return res.json({ ok: false, message: "El usuario no existe" });
+    } else {
+      console.log(user.userName);
+      return res.json({ ok: true, userName: user.userName });
+    }
+
+  } catch(e){
+    console.log(e);
+  }
+}
+
+const getUserByEmail = async (req, res) => {
+  const email = req.query.email;
+
+  try {
+    const user = await User.findOne({ Email: email });
+
+    if (!user) {
+      return res.status(404).json({ ok: false, message: 'User not found' });
+    }
+
+    res.json({ ok: true, user });
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    res.status(500).json({ ok: false, message: 'Internal server error' });
+  }
+};
+
+const updateUser = async (req, res) => {
+  const email = req.query.email;
+  let { profileImage } = req.query;
+
+  profileImage = profileImage.replace("@", "%40").replace("images/", "images%2F");
+
+  try {
+    const user = await User.findOneAndUpdate(
+      { Email: email },
+      { Image: profileImage },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ ok: false, message: 'User not found' });
+    }
+
+    res.json({ ok: true, user });
+  } catch (error) {
+    console.error('Error updating user:', error);
+    res.status(500).json({ ok: false, message: 'Internal server error' });
+  }
+};
+
+module.exports = { login, verify_token, signUp, checkingPass, logout, recoverPasswordUser, changingPass, getUsername, getUserByEmail, updateUser };
