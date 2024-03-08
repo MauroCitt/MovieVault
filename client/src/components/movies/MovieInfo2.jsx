@@ -29,7 +29,7 @@ const MovieInfo2 = () => {
 
     useEffect(() => {
         function handleResize() {
-            if (window.innerWidth > 768) { 
+            if (window.innerWidth > 768) {
                 setUrlImage(`https://image.tmdb.org/t/p/original${backdropImage}`);
             } else {
                 setUrlImage(`https://image.tmdb.org/t/p/w780${backdropImage}`);
@@ -83,12 +83,15 @@ const MovieInfo2 = () => {
             </div>
             <div className="flex flex-col sm:flex-row md:flex-col mt-3 sm:mt-0 md:ml-20 px-2">
                 <div className="flex md:flex-col sm:flex-row md:items-start justify-between">
-                    <div className="flex flex-col items-start">
-                        <h1 className='text-white text-sm sm:text-5xl font-saira font-bold sm:mb-2 sm:ml-0 ml-2 mb-0'>{title} <span className='text-sm sm:text-4xl font-normal font-inter'>({year})</span> &nbsp; <span className='text-2xl sm:text-4xl xl:inline sm:block hidden'>Directed By </span> <span className='text-2xl sm:text-4xl font-normal font-inter xl:inline sm:block hidden'>{movie.movie.movieInfo.director}</span></h1>
-                        <p className='text-white text-sm font-inter sm:text-2xl sm:mb-2 sm:ml-0 ml-2 mb-0'>{genresName.join(', ')}</p>
-                        <p className='text-white text-sm sm:text-2xl font-inter sm:ml-0 ml-2 '>{movie.movie.movieInfo.runtime} mins</p>
+                    <div className="flex flex-col items-start overflow-auto pl-2">
+                        <h1 className='text-white text-sm sm:text-5xl font-saira text-left font-bold mr-4 sm:mb-2 sm:ml-0 mb-2'>{title} <span className='text-sm sm:text-4xl font-normal font-inter mr-2'>({year})</span> <span className='text-2xl sm:text-4xl xl:inline sm:block hidden'>Directed By </span> <span className='text-2xl sm:text-4xl font-normal font-inter xl:inline sm:block hidden'>{movie.movie.movieInfo.director}</span></h1>
+                        <p className='text-white text-sm font-inter mr-4 text-left sm:text-2xl sm:mb-2 sm:ml-0 mb-2'>{genresName.join(', ')}</p>
+                        <p className='text-white text-sm sm:text-2xl font-inter sm:ml-0'>{movie.movie.movieInfo.runtime} mins</p>
+                        <p className='text-white font-inter text-sm mb-0 sm:hidden block'>Directed By</p>
+                        <p className='text-white font-inter font-bold text-sm sm:hidden block'>{movie.movie.movieInfo.director}</p>
+                        <p className='text-white text-xs mr-8 text-justify sm:hidden block'>{movie.movie.movieInfo.overview}</p>
                     </div>
-                    <div className='md:items-start'>
+                    <div className='md:items-start flex-shrink-0'>
                         <img
                             src={`https://image.tmdb.org/t/p/w500/${movie.moviePath}`}
                             alt={`Movie Poster`}
