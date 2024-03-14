@@ -52,7 +52,6 @@ const Streaming = (props) => {
     
         const fetchMovieImages = async () => {
             try {
-                console.log("fetchMovieImages")
                 const res = await axios.get(`http://localhost:4000/streamingService?page=${currentPage}&streamingPlatform=${streamingPlatform}&genre=${props.selectedGenre}`);
                 setMovieImages(res.data.movies);
                 setTotalPages(Math.ceil(res.data.totalMovies / itemsPerPage));

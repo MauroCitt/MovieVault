@@ -12,7 +12,7 @@ const Suggestions = ({ suggestions, className, onSuggestionClick }) => {
     }
 
     return (
-        <div className={className}>
+        <div className={`${className} top-[100%] absolute`}>
             {suggestions.movieData.map((suggestion, index) => (
                 <div key={index} className="bg-white cursor-pointer text-black" onClick={() => onSuggestionClick(suggestion)}>
                     {suggestion}
