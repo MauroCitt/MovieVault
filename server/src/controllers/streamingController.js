@@ -117,7 +117,6 @@ const streamingController = {
         let genreId = -1;
 
         if (genre.length != 0) {
-            console.log("hola")
             genreId = genre[0].id;
         }
 

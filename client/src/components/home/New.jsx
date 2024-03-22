@@ -8,10 +8,12 @@ const New = () => {
     const [movieImages, setMovieImages] = useState([]);
     const [selectedMovie, setSelectedMovie] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [showMovieInfo, setShowMovieInfo] = useState(false);
+
     let movieImagePhoto
+    const email = localStorage.getItem('email');
 
     const navigate = useNavigate();
-    const [showMovieInfo, setShowMovieInfo] = useState(false);
 
     const handleImageClick = async (movie) => {
         console.log(movie);
@@ -36,7 +38,7 @@ const New = () => {
 
     const getFromDatabase = async (idMovie) => {
         try {
-            const res = await axios.get(`http://localhost:4000/getInfo?idMovie=${idMovie}`);
+            const res = await axios.get(`http://localhost:4000/getInfo?idMovie=${idMovie}&email=${email}`);
             console.log(res.data);
             return res.data;
         } catch (error) {

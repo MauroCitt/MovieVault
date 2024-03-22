@@ -42,7 +42,17 @@ const UserSchema = new mongoose.Schema({
 		type     : Array, 
 		required : false,
 		default  : null
-	}
+	},
+	watched: {
+		type     : Array, 
+		required : false,
+		default  : null
+	},
+	wantToWatch: {
+		type     : Array, 
+		required : false,
+		default  : null
+	},
 },
 {strictQuery: false}
 )

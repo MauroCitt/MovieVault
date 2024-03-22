@@ -23,7 +23,6 @@ const register = async (email) => {
 
 const login = async (req, res) => {
   const { email, magicLink } = req.body;
-  console.log(email);
   if (!email) {
     console.log("Email not provided");
     return res.json({ emailSent: false, message: "Debe llenar todos los campos" });
@@ -64,8 +63,6 @@ const login = async (req, res) => {
 
 const signUp = async (req, res) => {
   const { email, pass, username } = req.body;
-  console.log("username: " + username);
-
   let userDefault = "new_user_" + Math.floor(Math.random() * 1000000);
 
   if (!email || !pass) {
@@ -208,12 +205,12 @@ const changingPass = async (req, res) => {
 };
 
 const getUsername = async (req, res) => {
-  console.log(req.body);
   let email = req.query.email;
+  email = email.replace(/['"]+/g, '');
   
   try{
     const user = await User.findOne({ Email: email });
-    console.log("emailaaa " + email);
+    
 
     if (!user) {
       console.log("User not found");
@@ -229,7 +226,8 @@ const getUsername = async (req, res) => {
 }
 
 const getUserByEmail = async (req, res) => {
-  const email = req.query.email;
+  let email = req.query.email;
+  email = email.replace(/['"]+/g, '');
 
   try {
     const user = await User.findOne({ Email: email });

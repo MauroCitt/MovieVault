@@ -50,7 +50,6 @@ const Busqueda = () => {
     useEffect(() => {
         if (inputContent.length >= 3) {
             setSuggestions(true);
-            console.log(suggestions)
         } else {
             setSuggestions(false);
         }
@@ -110,7 +109,6 @@ const Busqueda = () => {
 
             try {
                 const res = await axios.get('http://localhost:4000/getElasticSearch?query=' + inputContent);
-                console.log(res.data)
                 setQueryItems(res.data);
             } catch (error) {
                 console.error("Error fetching names", error);
@@ -229,6 +227,7 @@ const Busqueda = () => {
                                     class="block w-full sm:w-[150%] xl:w-auto xl:max-w-lg 2xl:max-w-xl py-2 px-10 sm:pl-10 sm:pr-20 xl:py-2 xl:pl-20 2xl:py-3 2xl:pl-10 text-sm 2xl:text-md text-white border border-purple-900 rounded-lg bg-slate-900 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Search for a movie..."
                                     required
+                                    autoComplete='off'
                                 />
                                 {suggestions ? <Suggestions suggestions={queryItems} onSuggestionClick={onSuggestionClick} className="absolute z-50 w-[80%] mt-1" /> : null}
                                 <button

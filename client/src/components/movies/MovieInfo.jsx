@@ -19,6 +19,9 @@ const MovieInfo = () => {
     const { state } = useLocation();
     const [movieReviews, setMovieReviews] = useState([]);
     const [expandedReview, setExpandedReview] = useState(null);
+
+    const email = localStorage.getItem('email');
+
     const navigate = useNavigate();
 
     const handleExpandClick = (index) => {
@@ -70,7 +73,7 @@ const MovieInfo = () => {
         const getFromDatabase = async () => {
             console.log(id);
             try {
-                const res = await axios.get(`http://localhost:4000/getInfo?idMovie=${id}`);
+                const res = await axios.get(`http://localhost:4000/getInfo?idMovie=${id}&email=${email}`);
                 return res.data;
             } catch (error) {
                 console.log(error);

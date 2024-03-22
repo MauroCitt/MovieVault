@@ -68,6 +68,7 @@ const Carousel = () => {
     const getFromDatabase = async (idMovie) => {
         try {
             const res = await axios.get(`http://localhost:4000/getInfo?idMovie=${idMovie}`);
+            console.log(res.data)
             return res.data;
         } catch (error) {
             console.log(error);

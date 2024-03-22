@@ -210,6 +210,35 @@ const fixing = {
             console.error(error);
             res.status(500).json({ error: "Internal Server Error" });
         }
+    },
+    fixMissingRuntime: async function (req, res, next) {
+        try {
+            const moviesWithoutRuntime = await Movie.find({ runtime: { $exists: false } });
+    
+            for (const movie of moviesWithoutRuntime) {
+                const urlApi = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${apiKey}&language=en-US`;
+    
+                const response = await fetch(urlApi, options);
+                const data = await response.json();
+    
+                if (data.runtime) {
+                    console.log(`Updating movie id ${movie.id} with runtime ${data.runtime}`);
+                    await Movie.findOneAndUpdate(
+                        { id: movie.id },
+                        { runtime: data.runtime },
+                        { new: true, upsert: true }
+                    );
+                    console.log(`Updated movie id ${movie.id} with runtime ${data.runtime}`);
+                } else {
+                    console.log(`Could not find runtime for movie id ${movie.id}`);
+                }
+            }
+    
+            res.status(200).json({ message: 'Finished updating movies without runtime' });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: "Internal Server Error" });
+        }
     }
 };
 

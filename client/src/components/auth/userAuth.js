@@ -43,6 +43,7 @@ export default function useAuth() {
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('email');
     setLoggedIn(false);
     axios.post(`${URL}logout`, {}, {withCredentials: true});
     localStorage.removeItem('image');

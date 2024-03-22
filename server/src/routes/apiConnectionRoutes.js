@@ -10,6 +10,7 @@ const getMovies = require('../controllers/getMoviesController.js');
 const streaming = require('../controllers/streamingController.js');
 const details = require('../controllers/detailsApiController.js');
 const fixing = require('../controllers/fixing.js');
+const userMovieController = require('../controllers/userMovieController.js');
 
 const router = Router();
 
@@ -25,10 +26,18 @@ router.put('/profile/updateUser', auth.updateUser);
 
 router.get('/profile/getUser', auth.getUserByEmail);
 router.get('/getUsername', auth.getUsername)
-router.get('/movies', apiConnectionController.getJsonFile);
+var cron = require('node-cron');
+
+cron.schedule('13 7 * * *', async () => {
+    await apiConnectionController.getJsonFile();
+    await providersApiController.getJsonFile();
+    await crewApiController.getJsonFile();
+}, {
+    scheduled: true,
+    timezone: "America/New_York"
+  });
+
 router.get('/genres', genreConnectionController.getJsonFile);
-router.get('/crew', crewApiController.getJsonFile);
-router.get('/providers', providersApiController.getJsonFile)
 router.get('/home/movies', poster.getJsonFile);
 
 router.get('/getInfo', getMovies.getMovieInfo);
@@ -39,6 +48,10 @@ router.get('/newMovies', getMovies.getNewMovies);
 router.get('/getMomentMovie', getMovies.getMomentMovie);
 router.get('/getAllGenres', getMovies.getAllGenres);
 router.get('/getTwelveMovies', getMovies.getTwelveMovies);
+router.get('/getProviders', getMovies.getProviders);
+router.get('/getCastInfo', getMovies.getCastInfo);
+router.get('/getTrailer', getMovies.getMovieTrailer);
+router.get('/getProducers', getMovies.getProducersLogo);
 
 router.get('/streamingService', streaming.getStreamingMovies);
 router.get('/searchQuery', streaming.getMovieQuery);
@@ -50,6 +63,11 @@ router.get('/fixingCrew', fixing.fixMissingCrew);
 router.get('/fixingDirector', fixing.fixMissingDirector);
 router.get('/fixingDates', fixing.fixMissingYear);
 router.get('/fixingAll', fixing.fix282);
+router.get('/fixRuntime', fixing.fixMissingRuntime);
+
+router.post('/addToList', userMovieController.addMovieToList);
+router.get('/getMovieList', userMovieController.getMovieLists);
+
 
 
 

@@ -17,6 +17,7 @@ import RecoverPassForm from './components/passRecovery/RecoverPassForm.jsx';
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
 import Busqueda from './components/home/Busqueda.jsx';
+import ProfileList from './components/profile/ProfileList.jsx';
 
 const URL = 'http://localhost:4000/';
 
@@ -291,6 +292,13 @@ function App() {
           <Route path="/movieInfo/:titulo" element={<Info />} />
           <Route path="*" element={<Navigate to="/home" />} />
           <Route path="/genres" element={<Busqueda />} />
+          <Route path='/profileList' element={
+            <ProfileList     
+              image={image}
+              setImage={setImage}
+              profileImage={profileImage} 
+            />} 
+          />
         </Routes>
       </Router>
     </div>

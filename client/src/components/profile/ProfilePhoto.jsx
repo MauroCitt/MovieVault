@@ -55,7 +55,6 @@ const ProfileImageUploader = (props) => {
     }, [user]);
 
     if (imageChanged) {
-        console.log("linea 59")
         window.location.reload();
     }
     const fileInputRef = useRef(null);

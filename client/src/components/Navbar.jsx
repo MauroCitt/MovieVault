@@ -44,7 +44,7 @@ function NavbarHome({ user, loggedIn }) {
                             <div class="flex flex-row space-x-4 justify-center items-center">
                                 <Link to="/home" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm sm:text-base lg:text-lg font-medium no-underline font-saira">Home</Link>
                                 <Link to="/genres" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm sm:text-base lg:text-lg font-medium no-underline font-saira">Genres</Link>
-                                <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm sm:text-base lg:text-lg font-medium no-underline font-saira">Your watchlist</a>
+                                <Link to="/profileList" class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm sm:text-base lg:text-lg font-medium no-underline font-saira">Your watchlist</Link>
                             </div>
                         </div>
                     </div>

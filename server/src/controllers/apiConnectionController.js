@@ -38,7 +38,7 @@ apiConnectionController.getJsonFile = async (req, res, next) => {
 
     try {
         let allData = [];
-        for (let index = 1; index < 101; index++) {
+        for (let index = 1; index < 20; index++) {
             let currentUrlApi = urlApi.replace(/page=\d+/, `page=${index}`);
             let response = await fetch(currentUrlApi, options);
             let data = await response.json();

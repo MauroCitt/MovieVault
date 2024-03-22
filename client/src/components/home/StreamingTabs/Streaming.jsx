@@ -13,6 +13,7 @@ const Streaming = (props) => {
 
 
     let movieImagePhoto;
+    let email = localStorage.getItem('email');
 
     const navigate = useNavigate();
     const [showMovieInfo, setShowMovieInfo] = useState(false);
@@ -49,7 +50,6 @@ const Streaming = (props) => {
                 break;
         }
 
-    
         const fetchMovieImages = async () => {
             try {
                 const res = await axios.get(`http://localhost:4000/streamingService?page=${currentPage}&streamingPlatform=${streamingPlatform}&genre=${props.selectedGenre}`);
@@ -60,7 +60,7 @@ const Streaming = (props) => {
                 console.log(err);
             }
         };
-    
+
         const fetchMovieImagesSearch = async () => {
             try {
                 console.log("fetchMovieImagesSearch")
@@ -73,7 +73,6 @@ const Streaming = (props) => {
                 console.log(err);
             }
         };
-    
         props.isClicked ? fetchMovieImagesSearch() : fetchMovieImages();
     }, [props.isSearching, currentPage, props.activeTab, props.selectedGenre]);
 
@@ -118,7 +117,7 @@ const Streaming = (props) => {
 
     const getFromDatabase = async (idMovie) => {
         try {
-            const res = await axios.get(`http://localhost:4000/getInfo?idMovie=${idMovie}`);
+            const res = await axios.get(`http://localhost:4000/getInfo?idMovie=${idMovie}&email=${email}`);
             return res.data;
         } catch (error) {
             console.log(error);

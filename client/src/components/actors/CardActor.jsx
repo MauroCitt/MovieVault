@@ -25,7 +25,9 @@ const CardActor = (props) => {
 
     return (
         <div className='w-28 md:w-48 2xl:w-56 mr-4'>
-            <img src={`https://image.tmdb.org/t/p/${imageSize}${t.profile_path}`} alt={t.name} className='w-full h-36 md:h-56 2xl:h-64 object-cover object-top' />
+            <div className='w-28 md:w-48 2xl:w-56 mr-4'>
+                <img src={t.profile_path ? `https://image.tmdb.org/t/p/${imageSize}${t.profile_path}` : '/profile.jpg'} alt={t.name} className='w-full h-36 md:h-56 2xl:h-64 object-cover object-top' />
+            </div>
             <div className='bg-slate-800 px-2 py-2 mb-4'>
                 <h1 className='text-xs md:text-lg text-white mb-1 md:mb-0'>{t.name}</h1>
                 <h2 className='text-xs text-neutral-200 font-inter'>{t.character}</h2>

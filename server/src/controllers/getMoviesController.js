@@ -1,5 +1,7 @@
 const Movie = require("../models/movie.js");
 const Genre = require("../models/genre.js");
+const User = require("../models/user.js");
+const { fetchMovieInfo, getGenres, fetchImages } = require('../services/movieInfoService.js');
 
 let fetch;
 
@@ -23,36 +25,6 @@ const options = {
     },
 };
 
-const getGenres = async function (genresId) {
-    const genresName = [];
-    for (const element of genresId) {
-        const genre = await Genre.findOne({ id: element });
-        genresName.push(genre.nombre);
-    }
-    return genresName;
-};
-
-
-const fetchImages = async function (movieId) {
-    try {
-        const response = await fetch(
-            `https://api.themoviedb.org/3/movie/${movieId}/images`,
-            options
-        );
-        const data = await response.json();
-        let englishPosters = data.posters.filter(
-            (poster) => poster.iso_639_1 === "en"
-        );
-        if (englishPosters.length > 0) {
-            englishPosters.sort((a, b) => b.width - a.width);
-            const imagePath = englishPosters[0].file_path;
-            return { id: movieId, imagePath };
-        }
-    } catch (error) {
-        console.error(error);
-        return null;
-    }
-};
 
 const getMoviesController = {
     getTopMovies: async function (req, res) {
@@ -75,42 +47,19 @@ const getMoviesController = {
             console.error(error);
         }
     },
-    getAllGenres: async function(req, res){
+    getAllGenres: async function (req, res) {
         const genres = await Genre.find({});
-        console.log(genres);
         res.json(genres);
     },
     getMovieInfo: async (req, res) => {
         const movieId = req.query.idMovie;
+        let userEmail = req.query.email;
 
-        const movieInfo = await Movie.findOne({ id: movieId });
-
-        const genresId = movieInfo.genero;
-        const genresName = await getGenres(genresId);
-
-        const topThree = await getMoviesController.getRecommendations(movieId);
-        let backdropPath = null;
-
-        try {
-            const response = await fetch(
-                `https://api.themoviedb.org/3/movie/${movieId}`,
-                options
-            );
-            const data = await response.json();
-            console.log(data);
-            backdropPath = data.backdrop_path;
-
-
-        } catch (error) {
-            console.log(error);
-        }
-
-        const topThreeImages = await Promise.all(topThree.map(async (movie) => {
-            return await fetchImages(movie.id);
-        }));
-
-
-        res.json({ movieInfo, genresName, topThreeImages, topThree, backdropPath });
+        console.log(userEmail);
+    
+        const movieData = await fetchMovieInfo(movieId, userEmail);
+    
+        res.json(movieData);
     },
 
     getReviews: async function (req, res) {
@@ -214,11 +163,11 @@ const getMoviesController = {
                 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1',
                 options
             );
-    
+
             const data = await response.json();
             const pelis = data.results;
             let topMovies = pelis.slice(0, 3).map(peli => ({ movie: peli, score: (peli.vote_average + peli.vote_count + peli.popularity) / 3 }));
-    
+
             for (let index = 3; index < pelis.length; index++) {
                 const element = pelis[index];
                 const averageScore = (element.vote_average + element.vote_count + element.popularity) / 3;
@@ -228,31 +177,31 @@ const getMoviesController = {
                     minScoreMovie.score = averageScore;
                 }
             }
-    
+
             let bestMovie = topMovies[Math.floor(Math.random() * topMovies.length)].movie;
-    
+
             const response2 = await fetch(
                 `https://api.themoviedb.org/3/movie/${bestMovie.id}/images`,
                 options
             );
-    
+
             const dataPoster = await response2.json();
             let englishPosters = dataPoster.posters.filter(
                 (poster) => poster.iso_639_1 === "en"
             );
             const imagePath = englishPosters[0].file_path;
-    
+
             const movieInfo = await Movie.findOne({ id: bestMovie.id });
-    
+
             const genresId = movieInfo.genero;
             const genresName = await getGenres(genresId);
-    
+
             const topThree = await getMoviesController.getRecommendations(movieInfo.id);
-    
+
             const topThreeImages = await Promise.all(topThree.map(async (movie) => {
                 return await fetchImages(movie.id);
             }));
-    
+
             res.json({ movieInfo, bestMovie, imagePath, genresName, topThreeImages, topThree });
         } catch (error) {
             console.error(error);
@@ -287,7 +236,7 @@ const getMoviesController = {
             console.error(error);
         }
     },
-    isMovieInDatabase: async function(movieId) {
+    isMovieInDatabase: async function (movieId) {
         const movie = await Movie.findOne({ id: movieId });
         return movie !== null;
     },
@@ -299,7 +248,7 @@ const getMoviesController = {
                 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1',
                 options
             );
-    
+
             const data = await response.json();
             const pelis = data.results;
             let topMovies = pelis.slice(0, 12);
@@ -311,8 +260,111 @@ const getMoviesController = {
                     movieData.push(imageInfo);
                 }
             }
-            console.log(movieData);
             res.json(movieData);
+        } catch (error) {
+            console.error(error);
+        }
+    },
+    getProviders: async function (req, res) {
+        const idMovie = req.query.idMovie;
+        const placeCode = "ES";
+
+        const urlApi = "https://api.themoviedb.org/3/movie/" + idMovie + "/watch/providers";
+
+        try {
+            const response = await fetch(
+                urlApi,
+                options
+            );
+            let data = await response.json();
+            const providersForPlace = data.results && data.results[placeCode];
+
+            if (providersForPlace) {
+                const flatrateProviders = providersForPlace.flatrate || [];
+
+                const flatrateProviderNames = flatrateProviders.map(
+                    (provider) => provider.provider_name
+                );
+
+                const flatrateProviderLogos = flatrateProviders.map(
+                    (provider) => provider.logo_path
+                );
+
+                console.log(flatrateProviderNames);
+                res.json({ names: flatrateProviderNames, logos: flatrateProviderLogos });
+
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    },
+    getCastInfo: async function (req, res) {
+        const idMovie = req.query.idMovie;
+        let actors;
+        const urlApi = 'https://api.themoviedb.org/3/movie/' + idMovie + '/credits?language=en-US';
+
+        try {
+            const response = await fetch(
+                urlApi,
+                options
+            );
+            let data = await response.json();
+            let cast = data.cast;
+            let filteredCast = cast.filter(actor => actor.order >= 0 && actor.order <= 7);
+
+            let newCast = filteredCast.map(actor => ({
+                name: actor.name,
+                profile_path: actor.profile_path,
+                character: actor.character
+            }));
+
+
+            res.json(newCast);
+
+        } catch (error) {
+            console.error(error);
+        }
+    },
+    getMovieTrailer: async function (req, res) {
+        const idMovie = req.query.idMovie;
+        const urlApi = 'https://api.themoviedb.org/3/movie/' + idMovie + '/videos?language=en-US';
+
+        let key;
+
+        try {
+            const response = await fetch(
+                urlApi,
+                options
+            );
+            let data = await response.json();
+            const trailers = data.results.filter(video => video.type === 'Trailer');
+            if (trailers.length > 0) {
+                key = trailers[0].key
+            }
+
+            console.log("llave: " + key);
+            res.json(key);
+        } catch (error) {
+            console.error(error)
+        }
+    },
+    getProducersLogo: async function (req, res) {
+        const idMovie = req.query.idMovie;
+        const urlApi = 'https://api.themoviedb.org/3/movie/' + idMovie + '?language=en-US';
+
+        try {
+            const response = await fetch(
+                urlApi,
+                options
+            );
+            let data = await response.json();
+            const producers = data.production_companies;
+            const validProducers = producers.filter(producer => producer.logo_path);
+
+            const producersNames = validProducers.map(producer => producer.name);
+            const producersLogos = validProducers.map(producer => producer.logo_path);
+
+            res.json({ names: producersNames, logos: producersLogos });
         } catch (error) {
             console.error(error);
         }

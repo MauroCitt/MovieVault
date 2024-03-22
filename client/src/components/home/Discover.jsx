@@ -7,11 +7,13 @@ import { useNavigate } from 'react-router-dom';
 const Discover = () => {
   const [movieImages, setMovieImages] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);      
-  let movieImagePhoto 
-
-  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
   const [showMovieInfo, setShowMovieInfo] = useState(false);
+
+  
+  let movieImagePhoto 
+  const navigate = useNavigate();
+  const email = localStorage.getItem('email');
 
   const handleImageClick = async (movie) => {
     let idMovie = movie.id;
@@ -35,7 +37,7 @@ const Discover = () => {
 
   const getFromDatabase = async (idMovie) => {
     try {
-      const res = await axios.get(`http://localhost:4000/getInfo?idMovie=${idMovie}`);
+      const res = await axios.get(`http://localhost:4000/getInfo?idMovie=${idMovie}&email=${email}`);
       console.log(res.data);
       return res.data;
     } catch (error) {
